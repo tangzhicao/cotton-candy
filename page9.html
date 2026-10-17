@@ -804,6 +804,19 @@
         isAssembled: false
       },
       {
+        id: 'shaft',
+        name: '长金属传动轴',
+        subName: 'Metal Drive Shaft (30×3cm)',
+        icon: '🦯',
+        desc: '长约30cm、直径约3cm的高强度拉丝金属传动轴，是连接驱动马达与易拉罐出糖盘的核心旋转枢纽。底端配备精密联轴套筒与内六角止动螺丝，与马达齿轮旋转头无缝咬合对接；顶端配有宽支撑法兰托盘与锁紧螺柱，牢固托举易拉罐在高速运转下平稳离心旋转。',
+        specs: '长约 30cm / 直径约 3cm / 10:1 黄金长径比 / 联轴套筒与支撑法兰',
+        targetPos: { x: 0, y: 4.92, z: -0.2 },
+        spawnPos: { x: 0, y: 7.8, z: -0.2 },
+        ghostSize: { x: 1.2, y: 5.2, z: 1.2 },
+        ghostOffsetY: 0,
+        isAssembled: false
+      },
+      {
         id: 'lamp',
         name: '酒精加热灯',
         subName: 'Alcohol Burner',
@@ -811,21 +824,8 @@
         desc: '提供恒定热源，布置在出糖罐下方，将蔗糖颗粒迅速加热熔化为液态糖浆。',
         specs: '耐热玻璃壶体 / 纯棉灯芯',
         targetPos: { x: 2.0, y: 0.85, z: 0.8 },
-        spawnPos: { x: 2.0, y: 3.8, z: 0.8 },
+        spawnPos: { x: 2.0, y: 4.0, z: 0.8 },
         ghostSize: { x: 1.6, y: 1.8, z: 1.6 },
-        ghostOffsetY: 0,
-        isAssembled: false
-      },
-      {
-        id: 'coupler',
-        name: '转盘联轴器',
-        subName: 'Drive Coupler & Hub',
-        icon: '⚙️',
-        desc: '金属紧锁接头，将马达轴的扭矩平稳、无滑移地传递至上方的易拉罐出糖罐。',
-        specs: '纯铜精密联轴器 / 内六角紧固螺丝',
-        targetPos: { x: 0, y: 2.85, z: -0.2 },
-        spawnPos: { x: 0, y: 5.0, z: -0.2 },
-        ghostSize: { x: 0.9, y: 0.7, z: 0.9 },
         ghostOffsetY: 0,
         isAssembled: false
       },
@@ -834,10 +834,10 @@
         name: '易拉罐出糖盘',
         subName: 'Can Extrusion Spinner',
         icon: '🥤',
-        desc: '核心离心甩丝机构！由铝制易拉罐改造而成，圆周侧壁钻有微孔。糖浆在高速自转下从微孔被甩飞成丝。',
-        specs: '轻质拉丝铝罐 / 36组微孔狭缝',
-        targetPos: { x: 0, y: 3.65, z: -0.2 },
-        spawnPos: { x: 0, y: 5.8, z: -0.2 },
+        desc: '核心离心甩丝机构！由铝制易拉罐改造而成，底面牢固安装在长金属传动轴顶端法兰盘上。高速自转时，加热融化的糖浆在巨大离心力作用下从微孔被甩飞成丝。',
+        specs: '轻质拉丝铝罐 / 36组微孔狭缝 / 法兰盘锁紧',
+        targetPos: { x: 0, y: 7.62, z: -0.2 },
+        spawnPos: { x: 0, y: 10.5, z: -0.2 },
         ghostSize: { x: 2.4, y: 1.2, z: 2.4 },
         ghostOffsetY: 0,
         isAssembled: false
@@ -854,14 +854,14 @@
       constructor(camera, domElement) {
         this.camera = camera;
         this.domElement = domElement;
-        this.target = new THREE.Vector3(0, 1.8, 0);
+        this.target = new THREE.Vector3(0, 3.5, 0);
 
-        this.radius = 14.0;
+        this.radius = 16.5;
         this.theta = Math.PI * 0.22; // 水平角度
-        this.phi = Math.PI * 0.32;   // 俯仰角度
+        this.phi = Math.PI * 0.35;   // 俯仰角度
 
         this.minRadius = 4.0;
-        this.maxRadius = 28.0;
+        this.maxRadius = 35.0;
         this.minPhi = 0.08;
         this.maxPhi = Math.PI * 0.48;
 
@@ -954,7 +954,7 @@
         this.camera.lookAt(this.target);
       }
 
-      setView(theta, phi, radius, targetY = 1.8) {
+      setView(theta, phi, radius, targetY = 3.5) {
         this.targetTheta = theta;
         this.targetPhi = Math.max(this.minPhi, Math.min(this.maxPhi, phi));
         this.targetRadius = Math.max(this.minRadius, Math.min(this.maxRadius, radius));
@@ -1759,7 +1759,173 @@
       partGroups.push(motorGrp);
 
       // --------------------------------------------------------
-      // 4. 酒精加热灯 (Alcohol Lamp)
+      // 4. 长金属传动轴 (实测长约30cm 直径3cm 高精旋转连接轴)
+      // --------------------------------------------------------
+      const shaftGrp = new THREE.Group();
+
+      const sMats = {
+        polishedSteel: new THREE.MeshStandardMaterial({
+          color: 0xE2E8F0,
+          roughness: 0.22,
+          metalness: 0.92
+        }),
+        brushedAluminum: new THREE.MeshStandardMaterial({
+          color: 0xCBD5E1,
+          roughness: 0.35,
+          metalness: 0.82
+        }),
+        chrome: new THREE.MeshStandardMaterial({
+          color: 0xF8FAFC,
+          roughness: 0.12,
+          metalness: 0.98
+        }),
+        darkSteel: new THREE.MeshStandardMaterial({
+          color: 0x334155,
+          roughness: 0.45,
+          metalness: 0.75
+        }),
+        brassBush: new THREE.MeshStandardMaterial({
+          color: 0xD97706,
+          roughness: 0.28,
+          metalness: 0.85
+        }),
+        screw: new THREE.MeshStandardMaterial({
+          color: 0x94A3B8,
+          roughness: 0.3,
+          metalness: 0.85
+        })
+      };
+
+      // 比例参数：长约30cm，直径约3cm (严格按照 10:1 黄金工程长径比)
+      const totalL = 5.0;
+      const rodR = 0.25; // 对应直径 3cm
+
+      // 1. 底端：马达旋转头对接套筒 (Lower Motor Coupling Hub)
+      // 用于精密套入马达的亮蓝色10齿齿轮与输出主轴
+      const couplerH = 0.65;
+      const couplerR = 0.38;
+      const couplerHub = new THREE.Mesh(
+        new THREE.CylinderGeometry(couplerR, couplerR * 1.05, couplerH, 24),
+        sMats.brushedAluminum
+      );
+      couplerHub.position.y = -totalL / 2 + couplerH / 2;
+      couplerHub.castShadow = true;
+      shaftGrp.add(couplerHub);
+
+      // 套筒底端内凹对接孔 (内部空腔，套住马达齿轮)
+      const dockHole = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.18, 0.18, 0.32, 16),
+        sMats.darkSteel
+      );
+      dockHole.position.y = -totalL / 2 + 0.16;
+      shaftGrp.add(dockHole);
+
+      // 套筒两枚侧面内六角止动紧定螺丝 (用于夹紧锁死在马达转轴上)
+      [-1, 1].forEach((side) => {
+        const setScrew = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.045, 0.045, 0.08, 12),
+          sMats.screw
+        );
+        setScrew.rotation.z = Math.PI * 0.5;
+        setScrew.position.set(side * (couplerR + 0.01), -totalL / 2 + 0.35, 0);
+        shaftGrp.add(setScrew);
+      });
+
+      // 套筒上部过渡颈圈
+      const neckRing = new THREE.Mesh(
+        new THREE.CylinderGeometry(rodR * 1.25, couplerR, 0.15, 24),
+        sMats.polishedSteel
+      );
+      neckRing.position.y = -totalL / 2 + couplerH + 0.075;
+      shaftGrp.add(neckRing);
+
+      // 2. 核心主轴身：高强度拉丝金属长杆 (Main Shaft Body: 30cm × 3cm)
+      const mainRodH = totalL - couplerH - 0.55;
+      const mainRod = new THREE.Mesh(
+        new THREE.CylinderGeometry(rodR, rodR, mainRodH, 32),
+        sMats.polishedSteel
+      );
+      mainRod.position.y = -totalL / 2 + couplerH + 0.15 + mainRodH / 2;
+      mainRod.castShadow = true;
+      shaftGrp.add(mainRod);
+
+      // 车床精车环形定位平衡凹槽 (2处，增加真实工业机械感)
+      [-1, 1].forEach((pos) => {
+        const groove = new THREE.Mesh(
+          new THREE.CylinderGeometry(rodR * 0.94, rodR * 0.94, 0.08, 24),
+          sMats.darkSteel
+        );
+        groove.position.y = mainRod.position.y + pos * (mainRodH * 0.28);
+        shaftGrp.add(groove);
+      });
+
+      // 中段防滑装配滚花纹套环 (Knurled Assembly Collar)
+      const centerCollar = new THREE.Mesh(
+        new THREE.CylinderGeometry(rodR * 1.08, rodR * 1.08, 0.32, 24),
+        sMats.brushedAluminum
+      );
+      centerCollar.position.y = mainRod.position.y;
+      shaftGrp.add(centerCollar);
+
+      // 3. 顶端：易拉罐出糖盘安装法兰与压盘机构 (Upper Can Mounting Flange System)
+      const flangeBaseY = totalL / 2 - 0.40;
+
+      // 上端加厚承重台阶轴颈
+      const topNeck = new THREE.Mesh(
+        new THREE.CylinderGeometry(rodR * 1.35, rodR, 0.18, 24),
+        sMats.polishedSteel
+      );
+      topNeck.position.y = flangeBaseY - 0.09;
+      shaftGrp.add(topNeck);
+
+      // 易拉罐底部宽支撑法兰托盘 (Flange Tray: 牢牢托举铝制易拉罐底部)
+      const flangeR = 0.85;
+      const flangeTray = new THREE.Mesh(
+        new THREE.CylinderGeometry(flangeR, flangeR * 0.92, 0.12, 32),
+        sMats.brushedAluminum
+      );
+      flangeTray.position.y = flangeBaseY + 0.06;
+      flangeTray.castShadow = true;
+      shaftGrp.add(flangeTray);
+
+      // 法兰盘周圈4枚沉头紧固螺钉
+      for (let i = 0; i < 4; i++) {
+        const ang = (i * Math.PI * 2) / 4;
+        const screw = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.04, 0.04, 0.04, 12),
+          sMats.screw
+        );
+        screw.position.set(
+          Math.cos(ang) * (flangeR * 0.68),
+          flangeTray.position.y + 0.065,
+          Math.sin(ang) * (flangeR * 0.68)
+        );
+        shaftGrp.add(screw);
+      }
+
+      // 易拉罐中心定位穿刺轴销 (Spindle Stud)
+      const studPin = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.12, 0.12, 0.32, 16),
+        sMats.chrome
+      );
+      studPin.position.y = flangeTray.position.y + 0.06 + 0.16;
+      shaftGrp.add(studPin);
+
+      // 顶端防松六角锁紧螺母 (Hex Lock Nut)
+      const lockNut = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.18, 0.18, 0.10, 6),
+        sMats.brassBush
+      );
+      lockNut.position.y = studPin.position.y + 0.08;
+      shaftGrp.add(lockNut);
+
+      shaftGrp.position.copy(partsData[3].spawnPos);
+      shaftGrp.visible = false;
+      scene.add(shaftGrp);
+      partGroups.push(shaftGrp);
+
+      // --------------------------------------------------------
+      // 5. 酒精加热灯 (Alcohol Lamp)
       // --------------------------------------------------------
       const lampGrp = new THREE.Group();
       // 玻璃壶体
@@ -1782,28 +1948,10 @@
       flame.position.y = 1.05;
       lampGrp.add(flame);
 
-      lampGrp.position.copy(partsData[3].spawnPos);
+      lampGrp.position.copy(partsData[4].spawnPos);
       lampGrp.visible = false;
       scene.add(lampGrp);
       partGroups.push(lampGrp);
-
-      // --------------------------------------------------------
-      // 5. 转盘联轴器 (Coupler & Hub)
-      // --------------------------------------------------------
-      const couplerGrp = new THREE.Group();
-      const couplerBody = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.38, 0.55, 16), mats.brass);
-      couplerBody.castShadow = true;
-      couplerGrp.add(couplerBody);
-
-      // 顶面紧固转盘小托板
-      const tray = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.08, 20), mats.aluminum);
-      tray.position.y = 0.3;
-      couplerGrp.add(tray);
-
-      couplerGrp.position.copy(partsData[4].spawnPos);
-      couplerGrp.visible = false;
-      scene.add(couplerGrp);
-      partGroups.push(couplerGrp);
 
       // --------------------------------------------------------
       // 6. 易拉罐出糖盘 (Can Extrusion Spinner)
@@ -2173,19 +2321,19 @@
     }
 
     btnVDef.addEventListener('click', () => {
-      controls.setView(Math.PI * 0.22, Math.PI * 0.32, 14.0);
+      controls.setView(Math.PI * 0.22, Math.PI * 0.35, 16.5, 3.5);
       setActiveViewBtn(btnVDef);
     });
     btnVTop.addEventListener('click', () => {
-      controls.setView(0, 0.05, 16.0);
+      controls.setView(0, 0.05, 19.0, 3.5);
       setActiveViewBtn(btnVTop);
     });
     btnVFront.addEventListener('click', () => {
-      controls.setView(0, Math.PI * 0.46, 14.0);
+      controls.setView(0, Math.PI * 0.46, 16.5, 3.5);
       setActiveViewBtn(btnVFront);
     });
     btnVIso.addEventListener('click', () => {
-      controls.setView(Math.PI * 0.25, Math.PI * 0.35, 15.0);
+      controls.setView(Math.PI * 0.25, Math.PI * 0.35, 17.5, 3.5);
       setActiveViewBtn(btnVIso);
     });
 
@@ -2334,14 +2482,20 @@
         }
       }
 
-      // 4. 若全部组装完成，驱动马达转轴齿轮与易拉罐出糖盘高速旋转
+      // 4. 若全部组装完成，驱动马达转轴齿轮、长金属传动轴与易拉罐出糖盘高速同步旋转
       if (isFullyAssembled) {
         const motorObj = partGroups[2];
         if (motorObj && motorObj.userData && motorObj.userData.rotor) {
           motorObj.userData.rotor.rotation.y += 0.28;
         }
+        const shaftObj = partGroups[3];
+        if (shaftObj) {
+          shaftObj.rotation.y += 0.28;
+        }
         const canGrp = partGroups[5];
-        if (canGrp) canGrp.rotation.y += 0.18;
+        if (canGrp) {
+          canGrp.rotation.y += 0.28;
+        }
       }
 
       // 5. 渲染 3D 场景与右上角罗盘
