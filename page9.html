@@ -522,6 +522,198 @@
       color: #34D399;
     }
 
+    /* =========================================================
+       5.5 右侧运转控制面板 (Machine Operation & Floss Controls)
+       ========================================================= */
+    .sidebar-control-panel {
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      background: #16181E;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .panel-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .control-label-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .control-val-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #38BDF8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .control-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      outline: none;
+      transition: background 0.2s;
+    }
+    .control-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #38BDF8;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+      transition: all 0.15s ease;
+    }
+    .control-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #7DD3FC;
+    }
+    .control-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #38BDF8;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    }
+
+    .slider-marks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: var(--text-muted);
+      padding: 0 2px;
+    }
+
+    .control-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .panel-action-btn {
+      padding: 7px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+    .panel-action-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* 启动马达按钮激活态 (绿色呼吸) */
+    .btn-motor-toggle.active {
+      background: rgba(16, 185, 129, 0.20);
+      border-color: rgba(16, 185, 129, 0.6);
+      color: #34D399;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+
+    /* 点燃酒精灯按钮激活态 (橙色微光) */
+    .btn-flame-toggle.active {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(245, 158, 11, 0.6);
+      color: #FBBF24;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+    }
+
+    /* 出丝物理状态指示器 */
+    .floss-status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+    .status-dot.dot-idle {
+      background: #64748B;
+      box-shadow: none;
+    }
+    .status-dot.dot-warning {
+      background: #F59E0B;
+      box-shadow: 0 0 8px #F59E0B;
+    }
+    .status-dot.dot-spinning {
+      background: #EC4899;
+      box-shadow: 0 0 10px #EC4899, 0 0 18px rgba(236, 72, 153, 0.5);
+      animation: dotPulse 1.0s infinite ease-in-out;
+    }
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.75; }
+    }
+
+    .status-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      overflow: hidden;
+    }
+    .status-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .status-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.3;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
     .sidebar-footer-tip {
       padding: 12px 16px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -735,6 +927,49 @@
         <!-- 零件列表 (自上而下 5 阶段) -->
         <div class="sidebar-parts-list" id="sidebarPartsList">
           <!-- JS 动态渲染各零件条目 -->
+        </div>
+
+        <!-- 新增：机器运转与动力控制面板 (Machine Operation & Floss Controls) -->
+        <div class="sidebar-control-panel">
+          <div class="panel-section-title">
+            <span>⚡</span>
+            <span>动力与出丝控制台</span>
+          </div>
+
+          <!-- 1. 马达转速调节滑块 (0 ~ 2800 RPM) -->
+          <div class="control-row">
+            <div class="control-label-wrap">
+              <span class="control-label">马达转速 (RPM)</span>
+              <span class="control-val-badge" id="motorRpmBadge">1600 RPM</span>
+            </div>
+            <input type="range" class="control-slider" id="motorRpmSlider" min="0" max="2800" step="50" value="1600" title="拖动调节马达转速">
+            <div class="slider-marks">
+              <span>0 (停止)</span>
+              <span>1400 (标称)</span>
+              <span>2800 (极速)</span>
+            </div>
+          </div>
+
+          <!-- 2. 启动/暂停旋转按钮 & 酒精灯点火按钮 -->
+          <div class="control-actions-grid">
+            <button class="panel-action-btn btn-motor-toggle" id="btnToggleMotorRun" title="启动或暂停全机旋转">
+              <span id="motorRunIcon">▶</span>
+              <span id="motorRunText">启动马达旋转</span>
+            </button>
+            <button class="panel-action-btn btn-flame-toggle" id="btnToggleFlamePanel" title="点燃或熄灭底部酒精灯">
+              <span id="panelFlameIcon">🔥</span>
+              <span id="panelFlameText">点燃酒精灯</span>
+            </button>
+          </div>
+
+          <!-- 3. 核心逻辑联动状态指示器 -->
+          <div class="floss-status-indicator" id="flossStatusIndicator">
+            <div class="status-dot dot-idle" id="flossStatusDot"></div>
+            <div class="status-texts">
+              <span class="status-title" id="flossStatusTitle">机器待机就绪</span>
+              <span class="status-desc" id="flossStatusDesc">需同时【点燃加热】与【马达旋转】方可出丝</span>
+            </div>
+          </div>
         </div>
 
         <div class="sidebar-footer-tip">
@@ -991,6 +1226,184 @@
     let flameGroup = null;
     let lampPointLight = null;
 
+    // 马达运转控制 (默认初始为停止状态)
+    let isMotorRunning = false;
+    let currentRpm = 1600;
+
+    // 棉花糖丝粒子特效系统
+    const FLOSS_COUNT = 750;
+    let flossMesh = null;
+    let flossGeo = null;
+    let flossPositions = null;
+    let flossColors = null;
+    let flossSizes = null;
+    const flossData = [];
+
+    // 生成蓬松棉花糖粒子专用柔光贴图 (Soft Spun Sugar Canvas Texture)
+    function createCottonCandyTexture() {
+      const c = document.createElement('canvas');
+      c.width = 64;
+      c.height = 64;
+      const ctx = c.getContext('2d');
+
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0.0, 'rgba(255, 255, 255, 1.0)');
+      grad.addColorStop(0.30, 'rgba(255, 230, 240, 0.9)');
+      grad.addColorStop(0.65, 'rgba(255, 182, 193, 0.45)');
+      grad.addColorStop(0.85, 'rgba(255, 192, 203, 0.15)');
+      grad.addColorStop(1.0, 'rgba(255, 192, 203, 0.0)');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.needsUpdate = true;
+      return tex;
+    }
+
+    // 初始化棉花糖丝丝粒子系统
+    function initCottonCandyParticles() {
+      flossGeo = new THREE.BufferGeometry();
+      flossPositions = new Float32Array(FLOSS_COUNT * 3);
+      flossColors = new Float32Array(FLOSS_COUNT * 3);
+      flossSizes = new Float32Array(FLOSS_COUNT);
+
+      const colorPalette = [
+        new THREE.Color(0xFFB6C1), // 浅粉
+        new THREE.Color(0xFFC0CB), // 经典草莓粉
+        new THREE.Color(0xFFE4E1), // 柔白粉
+        new THREE.Color(0xFFFFFF), // 纯白丝
+        new THREE.Color(0xFDF2F8)  // 奶甜白
+      ];
+
+      for (let i = 0; i < FLOSS_COUNT; i++) {
+        flossPositions[i * 3 + 0] = 0;
+        flossPositions[i * 3 + 1] = -999;
+        flossPositions[i * 3 + 2] = 0;
+
+        const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+        flossColors[i * 3 + 0] = c.r;
+        flossColors[i * 3 + 1] = c.g;
+        flossColors[i * 3 + 2] = c.b;
+
+        flossSizes[i] = 0.0;
+
+        flossData.push({
+          active: false,
+          x: 0, y: -999, z: 0,
+          vx: 0, vy: 0, vz: 0,
+          life: 0,
+          maxLife: 55 + Math.random() * 45,
+          color: c,
+          baseSize: 0.35 + Math.random() * 0.25
+        });
+      }
+
+      flossGeo.setAttribute('position', new THREE.BufferAttribute(flossPositions, 3));
+      flossGeo.setAttribute('color', new THREE.BufferAttribute(flossColors, 3));
+      flossGeo.setAttribute('size', new THREE.BufferAttribute(flossSizes, 1));
+
+      const flossMat = new THREE.PointsMaterial({
+        size: 0.48,
+        map: createCottonCandyTexture(),
+        transparent: true,
+        opacity: 0.88,
+        vertexColors: true,
+        blending: THREE.NormalBlending,
+        depthWrite: false
+      });
+
+      flossMesh = new THREE.Points(flossGeo, flossMat);
+      flossMesh.frustumCulled = false;
+      scene.add(flossMesh);
+    }
+
+    // 更新棉花糖丝动态物理仿真
+    function updateCottonCandyParticles() {
+      if (!flossMesh) return;
+
+      // 核心物理逻辑联动：只有当【酒精灯已点燃】且【马达正在旋转】且【转速足够】时喷出棉花糖丝！
+      const isEjecting = (isLampLit && isMotorRunning && currentRpm > 100 && partsData[4].isAssembled);
+
+      // 新发射粒子数正比于当前马达转速 (RPM越大，出丝越猛烈)
+      if (isEjecting) {
+        const spawnCount = Math.floor((currentRpm / 2800) * 10) + 2;
+        let spawned = 0;
+
+        for (let i = 0; i < FLOSS_COUNT; i++) {
+          if (!flossData[i].active) {
+            const p = flossData[i];
+            p.active = true;
+            p.life = 0;
+            p.maxLife = 50 + Math.random() * 45;
+
+            // 从易拉罐下半部微孔区域生成 (Y在 3.75 到 4.65 之间，圆柱半径 1.05)
+            const ang = Math.random() * Math.PI * 2;
+            const r = 1.05 + 0.03;
+            p.x = Math.cos(ang) * r;
+            p.z = Math.sin(ang) * r;
+            p.y = 3.75 + Math.random() * 0.90;
+
+            // 离心速度与切向初速度
+            const rpmFactor = currentRpm / 1600;
+            const vTangent = 0.08 * rpmFactor;
+            const vCentrifugal = (0.06 + Math.random() * 0.06) * rpmFactor;
+
+            // 水平速度矢量 (切向旋转 + 沿法线被离心力向外甩出)
+            p.vx = -Math.sin(ang) * vTangent + Math.cos(ang) * vCentrifugal;
+            p.vz = Math.cos(ang) * vTangent + Math.sin(ang) * vCentrifugal;
+            // 垂直方向：轻微热气流抬升后自然抛物线重力缓降
+            p.vy = 0.015 + (Math.random() - 0.5) * 0.01;
+
+            spawned++;
+            if (spawned >= spawnCount) break;
+          }
+        }
+      }
+
+      // 迭代更新所有存活粒子的位置、阻尼与蓬松扩张
+      for (let i = 0; i < FLOSS_COUNT; i++) {
+        const p = flossData[i];
+        if (p.active) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.z += p.vz;
+
+          // 空气阻力使甩出的糖丝变慢软化为蓬松云团
+          p.vx *= 0.962;
+          p.vz *= 0.962;
+          p.vy -= 0.0022; // 重力微下沉
+
+          // 围绕中心立轴产生的轻微涡流卷吸效应
+          const curAng = Math.atan2(p.z, p.x);
+          const curDist = Math.sqrt(p.x * p.x + p.z * p.z);
+          const swirlAng = curAng + 0.015 * (currentRpm / 1600);
+          p.x = Math.cos(swirlAng) * curDist;
+          p.z = Math.sin(swirlAng) * curDist;
+
+          p.life++;
+          const progress = p.life / p.maxLife;
+
+          if (progress >= 1.0) {
+            p.active = false;
+            flossPositions[i * 3 + 1] = -999;
+            flossSizes[i] = 0;
+          } else {
+            flossPositions[i * 3 + 0] = p.x;
+            flossPositions[i * 3 + 1] = p.y;
+            flossPositions[i * 3 + 2] = p.z;
+
+            // 尺寸先随出丝迅速蓬松膨胀，末期随透明度淡出
+            const puffScale = Math.sin(progress * Math.PI) * (1 - progress * 0.3);
+            flossSizes[i] = p.baseSize * (1.2 + puffScale * 1.6);
+          }
+        }
+      }
+
+      flossGeo.attributes.position.needsUpdate = true;
+      flossGeo.attributes.size.needsUpdate = true;
+    }
+
     function initThree() {
       const w = container.clientWidth;
       const h = container.clientHeight;
@@ -1043,6 +1456,9 @@
 
       // 9. 创建目标对准线框
       createGhostWireframe();
+
+      // 9.5 初始化棉花糖丝丝粒子系统
+      initCottonCandyParticles();
 
       // 10. 事件绑定
       window.addEventListener('resize', onResize);
@@ -2198,11 +2614,13 @@
         if (globalBtnText) globalBtnText.textContent = '熄灭酒精灯';
         if (globalIcon) globalIcon.textContent = '💨';
         showToast('🔥 酒精灯已点燃！5~6cm 高温火焰正在持续加热上方易拉罐底部');
+        updateFlossStatusIndicator();
       } else {
         if (flameText) flameText.textContent = '🔥 点燃酒精灯 (加热上方易拉罐)';
         if (globalBtnText) globalBtnText.textContent = '点燃酒精灯';
         if (globalIcon) globalIcon.textContent = '🔥';
         showToast('💨 酒精灯已熄灭。');
+        updateFlossStatusIndicator();
       }
     }
     const btnGlobalFlame = document.getElementById('btnToggleFlameGlobal');
@@ -2252,8 +2670,9 @@
       const allDone = partsData.every(p => p.isAssembled);
       if (allDone) {
         isFullyAssembled = true;
-        controls.autoRotate = true; // 缓慢自转展示成果
-        showToast('🎉 恭喜！自制棉花糖机全部拼装完成，马达已通电运转！');
+        controls.autoRotate = false;
+        updateFlossStatusIndicator();
+        showToast('🎉 恭喜！全部部件拼装完成！请在右侧面板【启动马达】并【点燃酒精灯】开始出丝！');
       } else {
         // 自动引导选中下一个未装配的零件
         const nextIdx = partsData.findIndex(p => !p.isAssembled);
@@ -2304,9 +2723,13 @@
         part.isAssembled = false;
         const grp = partGroups[idx];
         grp.position.copy(part.spawnPos);
-        grp.visible = (idx === 0); // 仅显示底座
+        grp.visible = (idx === 0);
         grp.rotation.set(0, 0, 0);
       });
+
+      isMotorRunning = false;
+      toggleLampFlame(false);
+      updateFlossStatusIndicator();
 
       // 重置双节5号电池升起状态
       if (aaBatteriesGroup) {
@@ -2334,6 +2757,11 @@
           step++;
         } else {
           clearInterval(timer);
+          setTimeout(() => {
+            toggleLampFlame(true);
+            toggleMotorRun(true);
+            showToast('🎉 演示完毕！酒精灯已点燃，马达高速运转，易拉罐正持续喷出棉花糖丝！');
+          }, 400);
         }
       }, 550);
     }
@@ -2455,6 +2883,122 @@
       }, 2400);
     }
 
+    // 更新物理出丝状态指示器与各按钮状态
+    function updateFlossStatusIndicator() {
+      const dot = document.getElementById('flossStatusDot');
+      const title = document.getElementById('flossStatusTitle');
+      const desc = document.getElementById('flossStatusDesc');
+      const btnMotor = document.getElementById('btnToggleMotorRun');
+      const motorIcon = document.getElementById('motorRunIcon');
+      const motorText = document.getElementById('motorRunText');
+      const btnFlame = document.getElementById('btnToggleFlamePanel');
+      const flameIcon = document.getElementById('panelFlameIcon');
+      const flameText = document.getElementById('panelFlameText');
+
+      if (btnMotor) {
+        if (isMotorRunning && currentRpm > 0) {
+          btnMotor.classList.add('active');
+          if (motorIcon) motorIcon.textContent = '⏸';
+          if (motorText) motorText.textContent = '暂停马达旋转';
+        } else {
+          btnMotor.classList.remove('active');
+          if (motorIcon) motorIcon.textContent = '▶';
+          if (motorText) motorText.textContent = '启动马达旋转';
+        }
+      }
+
+      if (btnFlame) {
+        if (isLampLit) {
+          btnFlame.classList.add('active');
+          if (flameIcon) flameIcon.textContent = '💨';
+          if (flameText) flameText.textContent = '熄灭酒精灯';
+        } else {
+          btnFlame.classList.remove('active');
+          if (flameIcon) flameIcon.textContent = '🔥';
+          if (flameText) flameText.textContent = '点燃酒精灯';
+        }
+      }
+
+      if (dot && title && desc) {
+        if (isLampLit && isMotorRunning && currentRpm > 100 && partsData[4].isAssembled) {
+          dot.className = 'status-dot dot-spinning';
+          title.textContent = '🍬 正在喷出棉花糖丝！';
+          title.style.color = '#F472B6';
+          desc.textContent = `高温熔糖中 + ${currentRpm} RPM 离心甩丝！`;
+        } else if (isMotorRunning && currentRpm > 100) {
+          dot.className = 'status-dot dot-warning';
+          title.textContent = '⚡ 马达自转中 (未出丝)';
+          title.style.color = '#FBBF24';
+          desc.textContent = '未点火加热，蔗糖颗粒未熔化，无法出丝。';
+        } else if (isLampLit) {
+          dot.className = 'status-dot dot-warning';
+          title.textContent = '🔥 酒精灯加热中 (未出丝)';
+          title.style.color = '#FBBF24';
+          desc.textContent = '马达已停止，缺少离心力，液态糖浆无法甩出。';
+        } else {
+          dot.className = 'status-dot dot-idle';
+          title.textContent = '机器待机就绪';
+          title.style.color = 'var(--text-primary)';
+          desc.textContent = '需同时【点燃加热】与【马达旋转】方可出丝。';
+        }
+      }
+    }
+
+    // 切换马达启停状态
+    function toggleMotorRun(forceState) {
+      if (typeof forceState === 'boolean') {
+        isMotorRunning = forceState;
+      } else {
+        isMotorRunning = !isMotorRunning;
+      }
+
+      if (isMotorRunning && currentRpm === 0) {
+        currentRpm = 1600;
+        const slider = document.getElementById('motorRpmSlider');
+        const badge = document.getElementById('motorRpmBadge');
+        if (slider) slider.value = 1600;
+        if (badge) badge.textContent = '1600 RPM';
+      }
+
+      updateFlossStatusIndicator();
+
+      if (isMotorRunning) {
+        showToast(`⚡ 马达已启动运转 (${currentRpm} RPM)！`);
+      } else {
+        showToast('⏸ 马达已暂停旋转。');
+      }
+    }
+
+    // 初始化控制面板事件监听
+    function initControlPanelEvents() {
+      const slider = document.getElementById('motorRpmSlider');
+      const badge = document.getElementById('motorRpmBadge');
+      if (slider) {
+        slider.addEventListener('input', (e) => {
+          currentRpm = parseInt(e.target.value, 10);
+          if (badge) badge.textContent = `${currentRpm} RPM`;
+          if (currentRpm === 0 && isMotorRunning) {
+            isMotorRunning = false;
+          } else if (currentRpm > 0 && !isMotorRunning) {
+            isMotorRunning = true;
+          }
+          updateFlossStatusIndicator();
+        });
+      }
+
+      const btnMotor = document.getElementById('btnToggleMotorRun');
+      if (btnMotor) {
+        btnMotor.addEventListener('click', () => toggleMotorRun());
+      }
+
+      const btnFlamePanel = document.getElementById('btnToggleFlamePanel');
+      if (btnFlamePanel) {
+        btnFlamePanel.addEventListener('click', () => toggleLampFlame());
+      }
+
+      updateFlossStatusIndicator();
+    }
+
     // 纯代码合成机械锁死吸附声 (Web Audio API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playSnapSound() {
@@ -2557,29 +3101,34 @@
         }
       }
 
-      // 4. 若全部组装完成，驱动马达转子、棒棒糖空心管联轴器、细金属轴与 RIO 易拉罐高速同步旋转
-      if (isFullyAssembled) {
+      // 4. 驱动全套机械链条自转 (根据马达转速当前滑块 RPM 实时变速)
+      if (isMotorRunning && currentRpm > 0) {
+        const rotStep = (currentRpm / 1600) * 0.28;
+
         // [1] 马达内部转子与转轴
         const motorObj = partGroups[1];
         if (motorObj && motorObj.userData && motorObj.userData.rotor) {
-          motorObj.userData.rotor.rotation.y += 0.28;
+          motorObj.userData.rotor.rotation.y += rotStep;
         }
         // [2] 棒棒糖空心套管
         const lollipopObj = partGroups[2];
         if (lollipopObj) {
-          lollipopObj.rotation.y += 0.28;
+          lollipopObj.rotation.y += rotStep;
         }
         // [3] 细长金属转动轴
         const shaftObj = partGroups[3];
         if (shaftObj) {
-          shaftObj.rotation.y += 0.28;
+          shaftObj.rotation.y += rotStep;
         }
         // [4] RIO 易拉罐离心出糖盘
         const canGrp = partGroups[4];
         if (canGrp) {
-          canGrp.rotation.y += 0.28;
+          canGrp.rotation.y += rotStep;
         }
       }
+
+      // 4.2 更新棉花糖丝动态物理仿真 (仅当酒精灯点燃 + 马达旋转时持续出丝)
+      updateCottonCandyParticles();
 
       // 4.5 酒精灯火焰跳动动效与动态点光源
       if (isLampLit && flameGroup && flameGroup.visible) {
@@ -2599,6 +3148,7 @@
     // 启动初始化
     initThree();
     renderSidebarList();
+    initControlPanelEvents();
     animate();
   </script>
 </body>
