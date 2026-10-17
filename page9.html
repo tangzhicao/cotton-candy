@@ -640,6 +640,10 @@
       </div>
 
       <div class="top-right-actions">
+        <button class="editor-btn" id="btnUndoStep" title="撤销上一次装配操作 (快捷键 Ctrl+Z)">
+          <span>↩️</span>
+          <span>返回上一步</span>
+        </button>
         <button class="editor-btn" id="btnAutoDemo" title="自动演示完整拼装流程">
           <span>⚡</span>
           <span>自动拼装演示</span>
@@ -765,11 +769,11 @@
         name: '工作底座',
         subName: 'Wooden Base Stand',
         icon: '🪵',
-        desc: '稳固的木质装配基板，带有预制安装限位槽与吸震软垫，为高速运转的机器提供重心支撑。',
-        specs: '椴木实木板 / 4点防滑软垫',
+        desc: '加宽加厚稳固木质装配基板，带有预制安装限位槽与吸震软垫，为高速运转的马达与整机提供更宽敞、更平稳的承载面。',
+        specs: '椴木实木板 (8.8×6.2cm) / 4点防滑硅胶软垫',
         targetPos: { x: 0, y: 0.2, z: 0 },
         spawnPos: { x: 0, y: 3.5, z: 0 },
-        ghostSize: { x: 6.6, y: 0.35, z: 4.8 },
+        ghostSize: { x: 8.8, y: 0.38, z: 6.2 },
         ghostOffsetY: 0,
         isAssembled: false
       },
@@ -780,8 +784,8 @@
         icon: '🔋',
         desc: '实测 5cm×3cm×1cm 双节电池盒，已配装 2 节标准 5 号高能碱性电池（1.5V × 2 = 3.0V 串联供电）。还原南孚聚能环黑金涂装、红色绝缘防漏环与标准正负极结构，刚好严丝合缝嵌入电池盒双仓。',
         specs: '实测 5×3×1 cm / 内置双节5号电池 / 聚能环 / 刀闸开关',
-        targetPos: { x: -1.9, y: 0.38, z: 0.8 },
-        spawnPos: { x: -1.9, y: 3.6, z: 0.8 },
+        targetPos: { x: -2.2, y: 0.38, z: 0.8 },
+        spawnPos: { x: -2.2, y: 3.6, z: 0.8 },
         ghostSize: { x: 1.5, y: 0.5, z: 2.5 },
         ghostOffsetY: 0.25,
         isAssembled: false
@@ -789,14 +793,14 @@
       {
         id: 'motor',
         name: '驱动马达',
-        subName: 'DC Toy Motor',
+        subName: '380 DC Toy Motor',
         icon: '⚡',
-        desc: '动力核心，130/380 型微型直流电机，将电池电能转化为高速旋转机械能（高达 3000 RPM）。',
-        specs: '3V~6V 直流永磁马达 / 2mm主轴',
-        targetPos: { x: 0, y: 1.2, z: -0.2 },
+        desc: '实物高精写实还原：镀锌拉丝钢罐体、侧边冲压通风散热窗（内置纯铜转子线圈）、前端双层台阶轴承室与亮蓝色10齿传动齿轮、尾部米白尼龙端盖、黄铜焊片引出红黑双极导线及马鞍固定支架。',
+        specs: '380微型直流电机 / 10齿蓝色小齿轮 / 红黑双极引线',
+        targetPos: { x: 0, y: 1.40, z: -0.2 },
         spawnPos: { x: 0, y: 4.2, z: -0.2 },
-        ghostSize: { x: 1.3, y: 1.8, z: 1.3 },
-        ghostOffsetY: 0,
+        ghostSize: { x: 1.7, y: 2.4, z: 1.5 },
+        ghostOffsetY: 0.1,
         isAssembled: false
       },
       {
@@ -806,8 +810,8 @@
         icon: '🔥',
         desc: '提供恒定热源，布置在出糖罐下方，将蔗糖颗粒迅速加热熔化为液态糖浆。',
         specs: '耐热玻璃壶体 / 纯棉灯芯',
-        targetPos: { x: 1.8, y: 0.8, z: 0.8 },
-        spawnPos: { x: 1.8, y: 3.6, z: 0.8 },
+        targetPos: { x: 2.0, y: 0.85, z: 0.8 },
+        spawnPos: { x: 2.0, y: 3.8, z: 0.8 },
         ghostSize: { x: 1.6, y: 1.8, z: 1.6 },
         ghostOffsetY: 0,
         isAssembled: false
@@ -819,8 +823,8 @@
         icon: '⚙️',
         desc: '金属紧锁接头，将马达轴的扭矩平稳、无滑移地传递至上方的易拉罐出糖罐。',
         specs: '纯铜精密联轴器 / 内六角紧固螺丝',
-        targetPos: { x: 0, y: 2.1, z: -0.2 },
-        spawnPos: { x: 0, y: 4.6, z: -0.2 },
+        targetPos: { x: 0, y: 2.85, z: -0.2 },
+        spawnPos: { x: 0, y: 5.0, z: -0.2 },
         ghostSize: { x: 0.9, y: 0.7, z: 0.9 },
         ghostOffsetY: 0,
         isAssembled: false
@@ -832,8 +836,8 @@
         icon: '🥤',
         desc: '核心离心甩丝机构！由铝制易拉罐改造而成，圆周侧壁钻有微孔。糖浆在高速自转下从微孔被甩飞成丝。',
         specs: '轻质拉丝铝罐 / 36组微孔狭缝',
-        targetPos: { x: 0, y: 2.9, z: -0.2 },
-        spawnPos: { x: 0, y: 5.2, z: -0.2 },
+        targetPos: { x: 0, y: 3.65, z: -0.2 },
+        spawnPos: { x: 0, y: 5.8, z: -0.2 },
         ghostSize: { x: 2.4, y: 1.2, z: 2.4 },
         ghostOffsetY: 0,
         isAssembled: false
@@ -1013,7 +1017,7 @@
       scene.add(fillLight);
 
       // 6. 清晰淡雅网格 (GridHelper: 让人一眼看出三维空间)
-      gridHelper = new THREE.GridHelper(24, 24, 0x8892B0, 0x3E4556);
+      gridHelper = new THREE.GridHelper(28, 28, 0x8892B0, 0x3E4556);
       gridHelper.position.y = 0.0;
       scene.add(gridHelper);
 
@@ -1073,20 +1077,20 @@
       };
 
       // --------------------------------------------------------
-      // 1. 木质工作底座 (Base Board)
+      // 1. 木质工作底座 (Base Board - 加大承载面积)
       // --------------------------------------------------------
       const baseGrp = new THREE.Group();
-      const baseMesh = new THREE.Mesh(new THREE.BoxGeometry(6.6, 0.35, 4.8), mats.wood);
+      const baseMesh = new THREE.Mesh(new THREE.BoxGeometry(8.8, 0.38, 6.2), mats.wood);
       baseMesh.castShadow = true;
       baseMesh.receiveShadow = true;
       baseGrp.add(baseMesh);
 
-      // 4 点防滑橡胶底脚
+      // 4 点防滑橡胶底脚 (外扩至 8.8x6.2 底座四角)
       for (let i = 0; i < 4; i++) {
-        const x = (i % 2 === 0 ? 1 : -1) * 2.8;
-        const z = (i < 2 ? 1 : -1) * 2.0;
-        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.15, 16), mats.blackPlastic);
-        foot.position.set(x, -0.22, z);
+        const x = (i % 2 === 0 ? 1 : -1) * 3.8;
+        const z = (i < 2 ? 1 : -1) * 2.6;
+        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.16, 16), mats.blackPlastic);
+        foot.position.set(x, -0.23, z);
         baseGrp.add(foot);
       }
       baseGrp.position.copy(partsData[0].spawnPos);
@@ -1492,23 +1496,262 @@
       partGroups.push(battGrp);
 
       // --------------------------------------------------------
-      // 3. 驱动马达 (DC Toy Motor)
+      // 3. 驱动马达 (实物测绘 380直流电机高精还原模型)
       // --------------------------------------------------------
       const motorGrp = new THREE.Group();
-      // 金属固定支架
-      const bracket = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.4, 1.2), mats.aluminum);
-      bracket.position.y = -0.5;
-      motorGrp.add(bracket);
 
-      // 电机本体 (银白圆柱)
-      const motorCan = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 1.2, 24), mats.aluminum);
-      motorCan.castShadow = true;
-      motorGrp.add(motorCan);
+      const mMats = {
+        steelCan: new THREE.MeshStandardMaterial({
+          color: 0xDCE3EC,
+          roughness: 0.28,
+          metalness: 0.88
+        }),
+        nylonEndCap: new THREE.MeshStandardMaterial({
+          color: 0xECE6D6,
+          roughness: 0.55,
+          metalness: 0.08
+        }),
+        steelShaft: new THREE.MeshStandardMaterial({
+          color: 0xF1F5F9,
+          roughness: 0.15,
+          metalness: 0.95
+        }),
+        blueGear: new THREE.MeshStandardMaterial({
+          color: 0x0284C7,
+          roughness: 0.32,
+          metalness: 0.12
+        }),
+        brassLug: new THREE.MeshStandardMaterial({
+          color: 0xD4942A,
+          roughness: 0.25,
+          metalness: 0.88
+        }),
+        solder: new THREE.MeshStandardMaterial({
+          color: 0xCBD5E1,
+          roughness: 0.2,
+          metalness: 0.92
+        }),
+        copperWindings: new THREE.MeshStandardMaterial({
+          color: 0xB45309,
+          roughness: 0.4,
+          metalness: 0.75
+        }),
+        bracket: new THREE.MeshStandardMaterial({
+          color: 0xE2E8F0,
+          roughness: 0.3,
+          metalness: 0.85
+        }),
+        screw: new THREE.MeshStandardMaterial({
+          color: 0x94A3B8,
+          roughness: 0.3,
+          metalness: 0.85
+        }),
+        redWire: new THREE.MeshStandardMaterial({
+          color: 0xD32F2F,
+          roughness: 0.45,
+          metalness: 0.05
+        }),
+        blackWire: new THREE.MeshStandardMaterial({
+          color: 0x121316,
+          roughness: 0.45,
+          metalness: 0.05
+        }),
+        darkInterior: new THREE.MeshBasicMaterial({
+          color: 0x0F1115
+        })
+      };
 
-      // 顶端轴承与黄铜输出轴
-      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.0, 16), mats.brass);
-      shaft.position.y = 0.9;
-      motorGrp.add(shaft);
+      const mR = 0.55;       // 电机外壳半径
+      const mCanH = 1.35;    // 金属罐体高度
+      const mNylonH = 0.26;  // 尼龙后盖高度
+
+      // 1. 铝合金安装固定底座支架 (L型/马鞍形冲压支架)
+      const bracketBase = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 1.4), mMats.bracket);
+      bracketBase.position.y = -mCanH / 2 - mNylonH - 0.04;
+      motorGrp.add(bracketBase);
+
+      // 支架固定螺钉 (4枚)
+      for (let i = 0; i < 4; i++) {
+        const sx = (i % 2 === 0 ? 1 : -1) * 0.65;
+        const sz = (i < 2 ? 1 : -1) * 0.52;
+        const sc = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.03, 12), mMats.screw);
+        sc.position.set(sx, bracketBase.position.y + 0.05, sz);
+        motorGrp.add(sc);
+      }
+
+      // 支架竖向抱箍侧板
+      const bracketL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.9, 1.2), mMats.bracket);
+      bracketL.position.set(-mR - 0.04, -mCanH / 4, 0);
+      motorGrp.add(bracketL);
+
+      const bracketR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.9, 1.2), mMats.bracket);
+      bracketR.position.set(mR + 0.04, -mCanH / 4, 0);
+      motorGrp.add(bracketR);
+
+      // 抱箍紧固螺栓
+      const clampBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.45, 12), mMats.screw);
+      clampBolt.rotation.z = Math.PI * 0.5;
+      clampBolt.position.set(0, -mCanH / 4 + 0.25, 0.65);
+      motorGrp.add(clampBolt);
+
+      // 2. 金属圆柱外壳 (镀锌拉丝钢套筒)
+      const canCyl = new THREE.Mesh(new THREE.CylinderGeometry(mR, mR, mCanH, 32), mMats.steelCan);
+      canCyl.castShadow = true;
+      motorGrp.add(canCyl);
+
+      // 侧面冲压散热通风孔 (照片1、2中长条散热窗)
+      [-1, 1].forEach((side) => {
+        const ventWell = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.38, 0.42), mMats.darkInterior);
+        ventWell.position.set(side * (mR - 0.02), 0, 0);
+        motorGrp.add(ventWell);
+
+        // 内部隐约可见的纯铜漆包线转子线圈
+        const winding = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.32, 16), mMats.copperWindings);
+        winding.position.set(side * 0.15, 0, 0);
+        motorGrp.add(winding);
+
+        // 冲压卷边装饰框
+        const ventRim = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.42, 0.46), mMats.steelCan);
+        ventRim.position.set(side * (mR + 0.01), 0, 0);
+        motorGrp.add(ventRim);
+      });
+
+      // 3. 电机顶盖与冲压端面 (照片5特征)
+      const topRim = new THREE.Mesh(new THREE.CylinderGeometry(mR, mR, 0.04, 32), mMats.steelCan);
+      topRim.position.y = mCanH / 2 + 0.02;
+      motorGrp.add(topRim);
+
+      // 前端凸台轴承套 (双层台阶轴承室)
+      const collar1 = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.08, 24), mMats.steelCan);
+      collar1.position.y = mCanH / 2 + 0.06;
+      motorGrp.add(collar1);
+
+      const collar2 = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.08, 24), mMats.steelShaft);
+      collar2.position.y = mCanH / 2 + 0.12;
+      motorGrp.add(collar2);
+
+      // 前端面2处安装螺丝孔 (M3) 与冲压凹槽 (照片5)
+      [-1, 1].forEach((side) => {
+        const mHole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.02, 12), mMats.darkInterior);
+        mHole.position.set(side * 0.35, mCanH / 2 + 0.025, 0);
+        motorGrp.add(mHole);
+
+        const vSlot = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.02, 0.22), mMats.darkInterior);
+        vSlot.position.set(0, mCanH / 2 + 0.025, side * 0.35);
+        motorGrp.add(vSlot);
+      });
+
+      // 4. 不锈钢输出转轴与亮蓝色小齿轮 (整体作为转子组，方便运转动画)
+      const rotorGrp = new THREE.Group();
+      const shaftLen = 0.65;
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, shaftLen, 16), mMats.steelShaft);
+      shaft.position.y = mCanH / 2 + 0.14 + shaftLen / 2;
+      shaft.castShadow = true;
+      rotorGrp.add(shaft);
+
+      // 亮蓝色传动小齿轮 (Blue Pinion Gear - 标志性特征，照片1、2、5)
+      const gearGrp = new THREE.Group();
+      const gearH = 0.28;
+      const gearR = 0.105;
+
+      const gearHub = new THREE.Mesh(new THREE.CylinderGeometry(gearR, gearR, gearH, 16), mMats.blueGear);
+      gearGrp.add(gearHub);
+
+      // 齿轮10枚轮齿
+      const toothCount = 10;
+      for (let t = 0; t < toothCount; t++) {
+        const ang = (t * Math.PI * 2) / toothCount;
+        const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.04, gearH, 0.055), mMats.blueGear);
+        tooth.position.set(Math.cos(ang) * (gearR + 0.02), 0, Math.sin(ang) * (gearR + 0.02));
+        tooth.rotation.y = -ang;
+        gearGrp.add(tooth);
+      }
+
+      // 齿轮顶端中心轴通孔 (露出一截银色转轴)
+      const shaftTip = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.03, 12), mMats.steelShaft);
+      shaftTip.position.y = gearH / 2 + 0.015;
+      gearGrp.add(shaftTip);
+
+      gearGrp.position.y = shaft.position.y + 0.05;
+      gearGrp.castShadow = true;
+      rotorGrp.add(gearGrp);
+
+      motorGrp.add(rotorGrp);
+      motorGrp.userData.rotor = rotorGrp;
+
+      // 5. 乳白/米黄尼龙后盖端帽 (Nylon End-Bell - 照片1、2、4)
+      const nylonCap = new THREE.Mesh(new THREE.CylinderGeometry(mR * 0.98, mR * 0.98, mNylonH, 32), mMats.nylonEndCap);
+      nylonCap.position.y = -mCanH / 2 - mNylonH / 2;
+      nylonCap.castShadow = true;
+      motorGrp.add(nylonCap);
+
+      // 后轴承凸台与轴端
+      const rearBearing = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.08, 16), mMats.nylonEndCap);
+      rearBearing.position.y = -mCanH / 2 - mNylonH - 0.04;
+      motorGrp.add(rearBearing);
+
+      const rearAxleDot = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.02, 12), mMats.steelShaft);
+      rearAxleDot.position.y = -mCanH / 2 - mNylonH - 0.085;
+      motorGrp.add(rearAxleDot);
+
+      // 尼龙底盖2处注塑/散热凹陷圆槽 (照片4)
+      [-1, 1].forEach((side) => {
+        const dimple = new THREE.Mesh(new THREE.CylinderGeometry(0.10, 0.10, 0.04, 12), mMats.darkInterior);
+        dimple.position.set(side * 0.32, -mCanH / 2 - mNylonH - 0.01, 0);
+        motorGrp.add(dimple);
+      });
+
+      // 金属外壳翻边锁紧卡扣 (Crimp tabs - 照片1、2、4)
+      for (let c = 0; c < 2; c++) {
+        const ang = c * Math.PI;
+        const tab = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.06, 0.05), mMats.steelCan);
+        tab.position.set(Math.cos(ang) * mR, -mCanH / 2 - 0.03, Math.sin(ang) * mR);
+        tab.rotation.y = -ang;
+        motorGrp.add(tab);
+      }
+
+      // 6. 黄铜焊片接线端子与红黑引线 (Photos 1, 2, 4)
+      // 端子1 (正极 + 红线)
+      const lug1 = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.22, 0.12), mMats.brassLug);
+      lug1.position.set(-mR * 0.65, -mCanH / 2 - mNylonH - 0.04, 0.28);
+      lug1.rotation.z = 0.2;
+      motorGrp.add(lug1);
+
+      const solder1 = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), mMats.solder);
+      solder1.position.copy(lug1.position);
+      motorGrp.add(solder1);
+
+      // 红线引出 (朝向左侧电池盒)
+      const redWireCurve = new THREE.CatmullRomCurve3([
+        lug1.position.clone(),
+        new THREE.Vector3(-mR * 0.85, -mCanH / 2 - mNylonH - 0.12, 0.42),
+        new THREE.Vector3(-1.10, -mCanH / 2 - mNylonH - 0.08, 0.65),
+        new THREE.Vector3(-1.35, -mCanH / 2 - mNylonH - 0.02, 0.82),
+        new THREE.Vector3(-1.60, -mCanH / 2 - mNylonH + 0.02, 0.95)
+      ]);
+      const redWire = new THREE.Mesh(new THREE.TubeGeometry(redWireCurve, 24, 0.028, 8, false), mMats.redWire);
+      motorGrp.add(redWire);
+
+      // 端子2 (负极 + 黑线)
+      const lug2 = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.22, 0.12), mMats.brassLug);
+      lug2.position.set(mR * 0.65, -mCanH / 2 - mNylonH - 0.04, 0.28);
+      lug2.rotation.z = -0.2;
+      motorGrp.add(lug2);
+
+      const solder2 = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), mMats.solder);
+      solder2.position.copy(lug2.position);
+      motorGrp.add(solder2);
+
+      // 黑线引出
+      const blkWireCurve = new THREE.CatmullRomCurve3([
+        lug2.position.clone(),
+        new THREE.Vector3(mR * 0.85, -mCanH / 2 - mNylonH - 0.14, 0.45),
+        new THREE.Vector3(0.95, -mCanH / 2 - mNylonH - 0.09, 0.70),
+        new THREE.Vector3(0.85, -mCanH / 2 - mNylonH - 0.03, 0.95),
+        new THREE.Vector3(0.65, -mCanH / 2 - mNylonH + 0.01, 1.15)
+      ]);
+      const blkWire = new THREE.Mesh(new THREE.TubeGeometry(blkWireCurve, 24, 0.028, 8, false), mMats.blackWire);
+      motorGrp.add(blkWire);
 
       motorGrp.position.copy(partsData[2].spawnPos);
       motorGrp.visible = false;
@@ -1774,10 +2017,14 @@
       infoActionText.textContent = '装配吸附中...';
     }
 
+    // 装配步骤历史记录栈 (用于返回上一步/撤销)
+    const assemblyHistory = [];
+
     function onPartSnapped(idx) {
       const part = partsData[idx];
       part.isAssembled = true;
       ghostMesh.visible = false;
+      assemblyHistory.push(idx);
 
       // 音效
       playSnapSound();
@@ -1802,11 +2049,40 @@
       }
     }
 
+    // 返回上一步 (撤销上一次装配)
+    function undoLastStep() {
+      if (animatingParts.length > 0) return; // 正在补间吸附中时不处理
+
+      if (assemblyHistory.length === 0) {
+        showToast('ℹ️ 当前已处于初始状态，没有可撤销的装配步骤。');
+        return;
+      }
+
+      // 弹出最近一次拼装的零件
+      const lastIdx = assemblyHistory.pop();
+      const part = partsData[lastIdx];
+      const grp = partGroups[lastIdx];
+
+      part.isAssembled = false;
+      isFullyAssembled = false;
+      controls.autoRotate = false;
+
+      // 重置旋转与位移回浮动准备状态
+      grp.rotation.set(0, 0, 0);
+      grp.position.copy(part.spawnPos);
+
+      // 重新选中该部件，高亮并显示虚影
+      onSelectPartFromList(lastIdx);
+      showToast(`↩️ 已撤销【${part.name}】的装配，已退回到上一步！`);
+    }
+    document.getElementById('btnUndoStep').addEventListener('click', undoLastStep);
+
     // 重新拼装重置
     function resetAllAssembly() {
       isFullyAssembled = false;
       controls.autoRotate = false;
       ghostMesh.visible = false;
+      assemblyHistory.length = 0;
 
       partsData.forEach((part, idx) => {
         part.isAssembled = false;
@@ -1988,7 +2264,10 @@
 
     // 键盘快捷键监听
     document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' || e.key === ' ') {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+        e.preventDefault();
+        undoLastStep();
+      } else if (e.code === 'Space' || e.key === ' ') {
         e.preventDefault();
         if (selectedPartIdx >= 0 && selectedPartIdx < partsData.length) {
           snapPartToPosition(selectedPartIdx);
@@ -2055,8 +2334,12 @@
         }
       }
 
-      // 4. 若全部组装完成，旋转易拉罐出糖盘演示旋转
+      // 4. 若全部组装完成，驱动马达转轴齿轮与易拉罐出糖盘高速旋转
       if (isFullyAssembled) {
+        const motorObj = partGroups[2];
+        if (motorObj && motorObj.userData && motorObj.userData.rotor) {
+          motorObj.userData.rotor.rotation.y += 0.28;
+        }
         const canGrp = partGroups[5];
         if (canGrp) canGrp.rotation.y += 0.18;
       }
