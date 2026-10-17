@@ -636,7 +636,7 @@
       </div>
 
       <div class="top-center-hint">
-        <span>💡 空间自上而下 5 阶段：①电池盒(最上方) → ②马达(轴朝下) → ③棒棒糖套管 → ④长金属转轴 → ⑤易拉罐(密布出丝孔) → ⑥酒精灯(距罐底5~6cm可点燃)</span>
+        <span>💡 空间自上而下 5 阶段：①电池盒(最上方) → ②小型马达(轴朝下) → ③棒棒糖套管 → ④长金属转轴(~30cm) → ⑤大号易拉罐(D≈7cm，密布出丝孔) → ⑥大号酒精灯(距罐底5~6cm可点燃)</span>
       </div>
 
       <div class="top-right-actions">
@@ -779,22 +779,22 @@
         icon: '🔋',
         desc: '空间最上方！实测 5cm×3cm×1cm 标准工程塑料电池仓，装配 2 节 5 号碱性电池（3.0V 串联供电）。还原南孚聚能环涂装、红色绝缘防漏环与标准回路，红黑双导线向下引出，为下方马达供电。',
         specs: '空间最上方 / 3.0V 串联 / 导线向下连接马达',
-        targetPos: { x: -0.6, y: 10.8, z: 0.1 },
-        spawnPos: { x: -0.6, y: 13.5, z: 0.1 },
-        ghostSize: { x: 1.6, y: 0.6, z: 2.6 },
-        ghostOffsetY: 0.25,
+        targetPos: { x: -0.5, y: 16.20, z: 0.1 },
+        spawnPos: { x: -0.5, y: 18.50, z: 0.1 },
+        ghostSize: { x: 1.5, y: 0.6, z: 2.2 },
+        ghostOffsetY: 0.2,
         isAssembled: false
       },
       {
         id: 'motor',
         name: '第二层级 · 微型动力马达',
-        subName: 'Second Level: DC Toy Motor (Shaft Down)',
+        subName: 'Second Level: Compact Toy DC Motor (Shaft Down)',
         icon: '⚡',
-        desc: '位于电池盒正下方！马达朝向严格倒置：顶部米白尼龙端盖接纳上方垂下的红黑导线，前端主轴与精密转轴垂直朝下输出高速旋转动力。',
-        specs: '微型直流马达 / 转轴朝下 / 接收上方导线',
-        targetPos: { x: 0, y: 9.2, z: 0 },
-        spawnPos: { x: 0, y: 11.6, z: 0 },
-        ghostSize: { x: 1.3, y: 2.0, z: 1.3 },
+        desc: '位于电池盒正下方！精细还原实物小型玩具直流电机（约2.5cm×3.2cm），转轴朝下，顶部接纳上方垂下的红黑导线，前端精密转轴垂直朝下输出高速旋转动力。',
+        specs: '小型直流马达 / 转轴朝下 / 紧凑小体积',
+        targetPos: { x: 0, y: 14.50, z: 0 },
+        spawnPos: { x: 0, y: 16.80, z: 0 },
+        ghostSize: { x: 1.0, y: 1.6, z: 1.0 },
         ghostOffsetY: 0,
         isAssembled: false
       },
@@ -805,8 +805,8 @@
         icon: '🍭',
         desc: '关键创客联轴智慧！选用中间空心的食品级棒棒糖塑料棍，上端紧密套入马达朝下的输出轴，下端紧密咬合下方的长金属转动轴，实现刚性无缝扭矩传动。',
         specs: '空心塑料套管 / 上套马达轴 / 下接金属长棍',
-        targetPos: { x: 0, y: 7.7, z: 0 },
-        spawnPos: { x: 0, y: 9.8, z: 0 },
+        targetPos: { x: 0, y: 13.30, z: 0 },
+        spawnPos: { x: 0, y: 15.20, z: 0 },
         ghostSize: { x: 0.45, y: 0.8, z: 0.45 },
         ghostOffsetY: 0,
         isAssembled: false
@@ -816,38 +816,38 @@
         name: '第三层级 · 长金属转动轴 (~30cm)',
         subName: 'Third Level: Slender Drive Shaft (~30cm)',
         icon: '🦯',
-        desc: '长约 30cm 的高强度细金属长棍，直径与马达转轴同径（约 2mm）。上端插入棒棒糖塑料套管接收动力，垂直向下贯通悬挂易拉罐出糖盘，极简纯粹，承担主旋转传动轴。',
-        specs: '长约 30cm / 直径同马达轴 / 纯净细直杆',
-        targetPos: { x: 0, y: 5.6, z: 0 },
-        spawnPos: { x: 0, y: 8.0, z: 0 },
-        ghostSize: { x: 0.45, y: 4.0, z: 0.45 },
+        desc: '长约 30cm 的高强度细金属长棍，直径与马达转轴同径（约 2mm）。中部带有实物亮黄色热缩绝缘套，两端黑胶包裹，垂直悬挂带动下方易拉罐。',
+        specs: '长约 30cm / 直径同马达轴 / 带实物黄色套管',
+        targetPos: { x: 0, y: 9.60, z: 0 },
+        spawnPos: { x: 0, y: 12.20, z: 0 },
+        ghostSize: { x: 0.6, y: 7.4, z: 0.6 },
         ghostOffsetY: 0,
         isAssembled: false
       },
       {
         id: 'can',
-        name: '第四层级 · 易拉罐离心出糖盘',
-        subName: 'Fourth Level: RIO Can Spinner (Micro-Holes)',
+        name: '第四层级 · RIO 易拉罐离心出糖盘',
+        subName: 'Fourth Level: RIO Can Spinner (D≈7cm, H≈15cm)',
         icon: '🥤',
-        desc: '核心离心出丝部件！挂在长金属转动轴底端，采用 RIO 强爽铝罐打造。下半区表面密布大量细小出糖微孔，高速旋转时，熔化的糖浆在巨大离心力作用下从这些微孔甩飞拉丝！',
-        specs: 'RIO强爽铝罐 / 下半区密布微孔 / 离心甩丝出糖',
-        targetPos: { x: 0, y: 3.0, z: 0 },
-        spawnPos: { x: 0, y: 5.2, z: 0 },
-        ghostSize: { x: 1.6, y: 1.8, z: 1.6 },
+        desc: '核心离心出丝大部件！严格按实物还原：高约15cm，直径约7cm，真实体积远大于上方小马达。下半区表面密布大量（196个）细小出糖微孔，高速旋转时糖浆由此甩出形成拉丝！',
+        specs: '直径约7cm·高约15cm / 体积远大于马达 / 密布出丝微孔',
+        targetPos: { x: 0, y: 4.90, z: 0 },
+        spawnPos: { x: 0, y: 7.50, z: 0 },
+        ghostSize: { x: 2.3, y: 2.8, z: 2.3 },
         ghostOffsetY: 0,
         isAssembled: false
       },
       {
         id: 'lamp',
-        name: '第五层级 · 酒精加热灯',
-        subName: 'Fifth Level: Alcohol Burner (5-6cm Gap)',
+        name: '第五层级 · 大号酒精加热灯',
+        subName: 'Fifth Level: Large Alcohol Burner (D≈7cm)',
         icon: '🔥',
-        desc: '位于地面最下方，灯顶距离上方易拉罐底部保持 5~6cm 安全高效加热距离。支持交互点燃，温暖火焰持续加热易拉罐凹形铝底，将白糖熔化为金黄液态糖浆。',
-        specs: '地面底部热源 / 距罐底5-6cm / 支持点燃与熄灭',
+        desc: '稳立于地面网格，体积与上方易拉罐大小相当（直径约7cm大号广口壶）。灯顶距易拉罐底部保持 5~6cm 黄金加热间距，支持真实交互点燃，温暖火焰持续加热罐底！',
+        specs: '直径约7cm大号灯壶 / 距罐底5-6cm / 支持点燃熄灭',
         targetPos: { x: 0, y: 0.0, z: 0 },
-        spawnPos: { x: 2.8, y: 0.0, z: 0 },
-        ghostSize: { x: 1.5, y: 1.5, z: 1.5 },
-        ghostOffsetY: 0.75,
+        spawnPos: { x: 3.5, y: 0.0, z: 0 },
+        ghostSize: { x: 2.3, y: 2.3, z: 2.3 },
+        ghostOffsetY: 1.0,
         isAssembled: false
       }
     ];
@@ -862,14 +862,14 @@
       constructor(camera, domElement) {
         this.camera = camera;
         this.domElement = domElement;
-        this.target = new THREE.Vector3(0, 5.6, 0);
+        this.target = new THREE.Vector3(0, 8.0, 0);
 
-        this.radius = 17.5;
+        this.radius = 24.0;
         this.theta = Math.PI * 0.22; // 水平角度
         this.phi = Math.PI * 0.42;   // 俯仰角度
 
         this.minRadius = 4.0;
-        this.maxRadius = 38.0;
+        this.maxRadius = 55.0;
         this.minPhi = 0.08;
         this.maxPhi = Math.PI * 0.48;
 
@@ -962,7 +962,7 @@
         this.camera.lookAt(this.target);
       }
 
-      setView(theta, phi, radius, targetY = 5.6) {
+      setView(theta, phi, radius, targetY = 8.0) {
         this.targetTheta = theta;
         this.targetPhi = Math.max(this.minPhi, Math.min(this.maxPhi, phi));
         this.targetRadius = Math.max(this.minRadius, Math.min(this.maxRadius, radius));
@@ -1310,35 +1310,35 @@
       swGroup.castShadow = true;
       battGrp.add(swGroup);
 
-      // 10. 红黑双极柔性导线 (从上方电池盒向下自然垂落，连接到第二层马达顶部接线端子)
+      // 10. 红黑双极柔性导线 (从上方电池盒 Y=16.20 向下垂落，连接到第二层马达顶部接线端子 Y=15.05)
       const redCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(-0.12, 0.22, bL / 2 - 0.05),
-        new THREE.Vector3(-0.05, 0.15, bL / 2 + 0.15),
-        new THREE.Vector3(0.10, -0.15, 0.65),
-        new THREE.Vector3(0.20, -0.45, 0.35),
-        new THREE.Vector3(0.25, -0.58, 0.12)
+        new THREE.Vector3(-0.02, 0.05, bL / 2 + 0.20),
+        new THREE.Vector3(0.12, -0.45, 0.70),
+        new THREE.Vector3(0.22, -0.85, 0.35),
+        new THREE.Vector3(0.27, -1.15, 0.12)
       ]);
       const redWireMesh = new THREE.Mesh(new THREE.TubeGeometry(redCurve, 36, 0.026, 8, false), bMats.redWire);
       redWireMesh.castShadow = true;
       battGrp.add(redWireMesh);
 
       const redTipCopper = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.08, 8), bMats.copperTip);
-      redTipCopper.position.set(0.25, -0.58, 0.12);
+      redTipCopper.position.set(0.27, -1.15, 0.12);
       battGrp.add(redTipCopper);
 
       const blkCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(0.20, 0.20, bL / 2 - 0.05),
-        new THREE.Vector3(0.40, 0.12, bL / 2 + 0.15),
-        new THREE.Vector3(0.70, -0.15, 0.65),
-        new THREE.Vector3(0.88, -0.45, 0.35),
-        new THREE.Vector3(0.95, -0.58, 0.12)
+        new THREE.Vector3(0.35, 0.05, bL / 2 + 0.20),
+        new THREE.Vector3(0.55, -0.45, 0.70),
+        new THREE.Vector3(0.68, -0.85, 0.35),
+        new THREE.Vector3(0.73, -1.15, 0.12)
       ]);
       const blkWireMesh = new THREE.Mesh(new THREE.TubeGeometry(blkCurve, 36, 0.026, 8, false), bMats.blackWire);
       blkWireMesh.castShadow = true;
       battGrp.add(blkWireMesh);
 
       const blkTipCopper = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.08, 8), bMats.copperTip);
-      blkTipCopper.position.set(0.95, -0.58, 0.12);
+      blkTipCopper.position.set(0.73, -1.15, 0.12);
       battGrp.add(blkTipCopper);
 
       // 盒内跨接红线 (照片3)
@@ -1484,7 +1484,7 @@
       partGroups.push(battGrp);
 
       // --------------------------------------------------------
-      // 2. 驱动微型马达 (第二层级：转轴朝下，接收上方导线)
+      // 2. 驱动微型马达 (第二层级：小型紧凑玩具马达，转轴朝下，接收上方导线)
       // --------------------------------------------------------
       const motorGrp = new THREE.Group();
 
@@ -1524,44 +1524,31 @@
           roughness: 0.4,
           metalness: 0.75
         }),
-        clipBand: new THREE.MeshStandardMaterial({
-          color: 0x94A3B8,
-          roughness: 0.35,
-          metalness: 0.82
-        }),
         darkInterior: new THREE.MeshBasicMaterial({
           color: 0x0F1115
         })
       };
 
-      const mR = 0.55;       // 电机外壳半径
-      const mCanH = 1.35;    // 金属罐体高度
-      const mNylonH = 0.26;  // 尼龙端盖高度
+      // 紧凑真实的微型玩具电机比例 (直径约2.5cm，高度约3.2cm)
+      const mR = 0.38;       // 电机外壳半径 (实测远小于易拉罐)
+      const mCanH = 0.88;    // 金属罐体高度
+      const mNylonH = 0.18;  // 尼龙端盖高度
 
       // 1. 金属圆柱外壳 (镀锌拉丝钢套筒)
       const canCyl = new THREE.Mesh(new THREE.CylinderGeometry(mR, mR, mCanH, 32), mMats.steelCan);
       canCyl.castShadow = true;
       motorGrp.add(canCyl);
 
-      // 侧面冲压通风散热槽与内部纯铜转子
+      // 侧面冲压通风散热槽与内部纯铜转子线圈
       [-1, 1].forEach((side) => {
-        const ventWell = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.38, 0.42), mMats.darkInterior);
-        ventWell.position.set(side * (mR - 0.02), 0, 0);
+        const ventWell = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.26, 0.30), mMats.darkInterior);
+        ventWell.position.set(side * (mR - 0.015), 0, 0);
         motorGrp.add(ventWell);
 
-        const winding = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.32, 16), mMats.copperWindings);
-        winding.position.set(side * 0.15, 0, 0);
+        const winding = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.20, 16), mMats.copperWindings);
+        winding.position.set(side * 0.10, 0, 0);
         motorGrp.add(winding);
-
-        const ventRim = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.42, 0.46), mMats.steelCan);
-        ventRim.position.set(side * (mR + 0.01), 0, 0);
-        motorGrp.add(ventRim);
       });
-
-      // 简易悬挂金属抱箍带
-      const clipRing = new THREE.Mesh(new THREE.CylinderGeometry(mR + 0.02, mR + 0.02, 0.20, 32), mMats.clipBand);
-      clipRing.position.y = 0.12;
-      motorGrp.add(clipRing);
 
       // 2. 顶部 (+Y)：乳白/米黄尼龙后盖端帽与黄铜焊片 (接收上方垂落的红黑导线)
       const nylonCap = new THREE.Mesh(new THREE.CylinderGeometry(mR * 0.98, mR * 0.98, mNylonH, 32), mMats.nylonEndCap);
@@ -1569,78 +1556,68 @@
       nylonCap.castShadow = true;
       motorGrp.add(nylonCap);
 
-      const rearBearing = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.08, 16), mMats.nylonEndCap);
-      rearBearing.position.y = mCanH / 2 + mNylonH + 0.04;
+      const rearBearing = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.06, 16), mMats.nylonEndCap);
+      rearBearing.position.y = mCanH / 2 + mNylonH + 0.03;
       motorGrp.add(rearBearing);
 
-      const rearAxleDot = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.02, 12), mMats.steelShaft);
-      rearAxleDot.position.y = mCanH / 2 + mNylonH + 0.085;
-      motorGrp.add(rearAxleDot);
-
       // 顶部黄铜焊片接线端子与焊点 (正极 + 负极)
-      const lug1 = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.22, 0.12), mMats.brassLug);
-      lug1.position.set(-mR * 0.65, mCanH / 2 + mNylonH + 0.06, 0.22);
+      const lug1 = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.16, 0.09), mMats.brassLug);
+      lug1.position.set(-mR * 0.60, mCanH / 2 + mNylonH + 0.05, 0.16);
       lug1.rotation.z = -0.2;
       motorGrp.add(lug1);
-      const solder1 = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 8), mMats.solder);
+      const solder1 = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mMats.solder);
       solder1.position.copy(lug1.position);
       motorGrp.add(solder1);
 
-      const lug2 = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.22, 0.12), mMats.brassLug);
-      lug2.position.set(mR * 0.65, mCanH / 2 + mNylonH + 0.06, 0.22);
+      const lug2 = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.16, 0.09), mMats.brassLug);
+      lug2.position.set(mR * 0.60, mCanH / 2 + mNylonH + 0.05, 0.16);
       lug2.rotation.z = 0.2;
       motorGrp.add(lug2);
-      const solder2 = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 8), mMats.solder);
+      const solder2 = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mMats.solder);
       solder2.position.copy(lug2.position);
       motorGrp.add(solder2);
 
       // 3. 底部 (-Y)：前盖轴承凸台与垂直朝下输出转轴
-      const btmRim = new THREE.Mesh(new THREE.CylinderGeometry(mR, mR, 0.04, 32), mMats.steelCan);
-      btmRim.position.y = -mCanH / 2 - 0.02;
+      const btmRim = new THREE.Mesh(new THREE.CylinderGeometry(mR, mR, 0.03, 32), mMats.steelCan);
+      btmRim.position.y = -mCanH / 2 - 0.015;
       motorGrp.add(btmRim);
 
-      const collar1 = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.08, 24), mMats.steelCan);
-      collar1.position.y = -mCanH / 2 - 0.06;
+      const collar1 = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.06, 24), mMats.steelCan);
+      collar1.position.y = -mCanH / 2 - 0.045;
       motorGrp.add(collar1);
 
-      const collar2 = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.08, 24), mMats.steelShaft);
-      collar2.position.y = -mCanH / 2 - 0.12;
+      const collar2 = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.06, 24), mMats.steelShaft);
+      collar2.position.y = -mCanH / 2 - 0.095;
       motorGrp.add(collar2);
-
-      [-1, 1].forEach((side) => {
-        const mHole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.02, 12), mMats.darkInterior);
-        mHole.position.set(side * 0.35, -mCanH / 2 - 0.025, 0);
-        motorGrp.add(mHole);
-      });
 
       // 4. 不锈钢输出转轴与亮蓝色小齿轮 (朝下输出！作为独立转子组旋转)
       const rotorGrp = new THREE.Group();
-      const shaftLen = 0.70;
-      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, shaftLen, 16), mMats.steelShaft);
-      shaft.position.y = -mCanH / 2 - 0.14 - shaftLen / 2;
+      const shaftLen = 0.55;
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.040, shaftLen, 16), mMats.steelShaft);
+      shaft.position.y = -mCanH / 2 - 0.12 - shaftLen / 2;
       shaft.castShadow = true;
       rotorGrp.add(shaft);
 
       // 亮蓝色传动小齿轮 (朝下压入转轴)
       const gearGrp = new THREE.Group();
-      const gearH = 0.28;
-      const gearR = 0.105;
+      const gearH = 0.22;
+      const gearR = 0.085;
       const gearHub = new THREE.Mesh(new THREE.CylinderGeometry(gearR, gearR, gearH, 16), mMats.blueGear);
       gearGrp.add(gearHub);
 
       for (let t = 0; t < 10; t++) {
         const ang = (t * Math.PI * 2) / 10;
-        const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.04, gearH, 0.055), mMats.blueGear);
-        tooth.position.set(Math.cos(ang) * (gearR + 0.02), 0, Math.sin(ang) * (gearR + 0.02));
+        const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.032, gearH, 0.045), mMats.blueGear);
+        tooth.position.set(Math.cos(ang) * (gearR + 0.016), 0, Math.sin(ang) * (gearR + 0.016));
         tooth.rotation.y = -ang;
         gearGrp.add(tooth);
       }
 
-      const shaftTip = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.04, 12), mMats.steelShaft);
-      shaftTip.position.y = -gearH / 2 - 0.02;
+      const shaftTip = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.03, 12), mMats.steelShaft);
+      shaftTip.position.y = -gearH / 2 - 0.015;
       gearGrp.add(shaftTip);
 
-      gearGrp.position.y = shaft.position.y - 0.05;
+      gearGrp.position.y = shaft.position.y - 0.04;
       gearGrp.castShadow = true;
       rotorGrp.add(gearGrp);
 
@@ -1671,8 +1648,8 @@
       };
 
       const stickL = 0.65;
-      const stickR = 0.075;
-      const innerR = 0.052;
+      const stickR = 0.065;
+      const innerR = 0.042;
 
       // 白色半透明空心塑料套管
       const stickMesh = new THREE.Mesh(
@@ -1702,19 +1679,47 @@
       // --------------------------------------------------------
       const shaftGrp = new THREE.Group();
 
-      const rodMat = new THREE.MeshStandardMaterial({
-        color: 0xEEF2F6,
-        roughness: 0.15,
-        metalness: 0.95
-      });
+      const rodMats = {
+        metal: new THREE.MeshStandardMaterial({
+          color: 0xEEF2F6,
+          roughness: 0.15,
+          metalness: 0.95
+        }),
+        yellowSleeve: new THREE.MeshStandardMaterial({
+          color: 0xFACC15, // 对应实物照片中的亮黄色热缩套管
+          roughness: 0.40,
+          metalness: 0.10
+        }),
+        blackTape: new THREE.MeshStandardMaterial({
+          color: 0x111827,
+          roughness: 0.55,
+          metalness: 0.08
+        })
+      };
 
-      // 极简纯粹细长不锈钢直棍 (长度 3.8，半径 0.048 与马达转轴完全一致)
+      // 细长不锈钢直棍 (长度 7.2，半径 0.038 与马达转轴完全一致)
       const rodMesh = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.048, 0.048, 3.8, 24),
-        rodMat
+        new THREE.CylinderGeometry(0.038, 0.038, 7.2, 24),
+        rodMats.metal
       );
       rodMesh.castShadow = true;
       shaftGrp.add(rodMesh);
+
+      // 还原实物照片特征：中部亮黄色绝缘热缩套管 (照片中黄色管段)
+      const yellowSleeve = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.048, 0.048, 2.2, 16),
+        rodMats.yellowSleeve
+      );
+      yellowSleeve.position.y = 0.50;
+      shaftGrp.add(yellowSleeve);
+
+      // 下端连接易拉罐处的黑色绝缘胶布包裹
+      const lowerTape = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.055, 0.055, 0.70, 16),
+        rodMats.blackTape
+      );
+      lowerTape.position.y = -2.80;
+      shaftGrp.add(lowerTape);
 
       shaftGrp.position.copy(partsData[3].spawnPos);
       shaftGrp.visible = false;
@@ -1722,7 +1727,7 @@
       partGroups.push(shaftGrp);
 
       // --------------------------------------------------------
-      // 5. 易拉罐离心出糖盘 (第四层级：下半区密布细小出糖微孔)
+      // 5. RIO 易拉罐出糖盘 (第四层级：体积大，直径约7cm，下半区密布出糖微孔)
       // --------------------------------------------------------
       const canGrp = new THREE.Group();
 
@@ -1757,44 +1762,46 @@
         })
       };
 
-      const canH = 1.50;
-      const canR = 0.62;
+      // 严格按照用户需求：直径约 7cm (canR = 1.05)，高度约 15cm (canH = 2.60)
+      // 体积约为上方小马达的 25 倍，真实壮硕大气！
+      const canH = 2.60;
+      const canR = 1.05;
 
       // 铝罐主体下段 (蓝)
-      const canLower = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR, canH * 0.52, 32), canMats.rioBlue);
+      const canLower = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR, canH * 0.52, 36), canMats.rioBlue);
       canLower.position.y = -canH * 0.24;
       canLower.castShadow = true;
       canGrp.add(canLower);
 
       // 铝罐主体上段 (紫渐变)
-      const canUpper = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR, canH * 0.48, 32), canMats.rioPurple);
+      const canUpper = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR, canH * 0.48, 36), canMats.rioPurple);
       canUpper.position.y = canH * 0.26;
       canUpper.castShadow = true;
       canGrp.add(canUpper);
 
       // 易拉罐顶部收口铝圈
-      const canRimTop = new THREE.Mesh(new THREE.CylinderGeometry(canR * 0.90, canR, 0.08, 32), canMats.canAluminum);
-      canRimTop.position.y = canH * 0.5 + 0.04;
+      const canRimTop = new THREE.Mesh(new THREE.CylinderGeometry(canR * 0.90, canR, 0.12, 36), canMats.canAluminum);
+      canRimTop.position.y = canH * 0.5 + 0.06;
       canGrp.add(canRimTop);
 
       // 顶部对接端黑色电工绝缘胶布包裹 (固定长金属转轴)
-      const tapeMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.20, 0.30, 16), canMats.blackTape);
-      tapeMesh.position.y = canH * 0.5 + 0.16;
+      const tapeMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.30, 0.40, 20), canMats.blackTape);
+      tapeMesh.position.y = canH * 0.5 + 0.22;
       canGrp.add(tapeMesh);
 
       // 易拉罐底部内凹凹槽与铝底圈 (朝下正对酒精灯)
-      const canRimBtm = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR * 0.92, 0.08, 32), canMats.canAluminum);
-      canRimBtm.position.y = -canH * 0.5 - 0.04;
+      const canRimBtm = new THREE.Mesh(new THREE.CylinderGeometry(canR, canR * 0.92, 0.10, 36), canMats.canAluminum);
+      canRimBtm.position.y = -canH * 0.5 - 0.05;
       canGrp.add(canRimBtm);
 
-      const canBottomDome = new THREE.Mesh(new THREE.SphereGeometry(canR * 0.88, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.35), canMats.canAluminum);
-      canBottomDome.position.y = -canH * 0.5 + 0.05;
+      const canBottomDome = new THREE.Mesh(new THREE.SphereGeometry(canR * 0.88, 20, 14, 0, Math.PI * 2, 0, Math.PI * 0.35), canMats.canAluminum);
+      canBottomDome.position.y = -canH * 0.5 + 0.08;
       canGrp.add(canBottomDome);
 
-      // 核心特征：易拉罐下半区表面密布大量细小出糖微孔 (6 排 × 24 孔 = 144 个离心出丝孔)
-      const poreRows = 6;
-      const poreCols = 24;
-      const poreYStart = -canH * 0.42;
+      // 核心特征：易拉罐下半区表面密布大量细小出糖微孔 (7 排 × 28 孔 = 196 个离心出丝孔)
+      const poreRows = 7;
+      const poreCols = 28;
+      const poreYStart = -canH * 0.44;
       const poreYEnd = -canH * 0.10;
       const rowStep = (poreYEnd - poreYStart) / (poreRows - 1);
 
@@ -1808,14 +1815,14 @@
           const pz = Math.sin(ang) * (canR + 0.003);
 
           // 微孔暗深空腔
-          const pore = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.035, 8), canMats.poreDark);
+          const pore = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.045, 8), canMats.poreDark);
           pore.rotation.z = Math.PI * 0.5;
           pore.rotation.y = -ang;
           pore.position.set(px, yPos, pz);
           canGrp.add(pore);
 
           // 冲压银白金属微毛刺唇圈
-          const lip = new THREE.Mesh(new THREE.RingGeometry(0.012, 0.022, 8), canMats.poreLip);
+          const lip = new THREE.Mesh(new THREE.RingGeometry(0.014, 0.026, 8), canMats.poreLip);
           lip.rotation.y = ang + Math.PI * 0.5;
           lip.position.set(px * 1.002, yPos, pz * 1.002);
           canGrp.add(lip);
@@ -1828,7 +1835,7 @@
       partGroups.push(canGrp);
 
       // --------------------------------------------------------
-      // 6. 酒精加热灯 (第五层级：位于地面最下方，距罐底5~6cm，支持点燃)
+      // 6. 大号酒精加热灯 (第五层级：直径约7cm大号灯壶，与易拉罐相当，距罐底5~6cm)
       // --------------------------------------------------------
       const lampGrp = new THREE.Group();
 
@@ -1836,7 +1843,7 @@
         glass: new THREE.MeshPhysicalMaterial({
           color: 0xE0F2FE,
           transparent: true,
-          opacity: 0.55,
+          opacity: 0.58,
           roughness: 0.1,
           transmission: 0.85
         }),
@@ -1881,60 +1888,62 @@
         })
       };
 
-      // 1. 广口耐热玻璃壶体 (平底稳立于网格地面 Y=0)
-      const jar = new THREE.Mesh(new THREE.CylinderGeometry(0.50, 0.68, 0.75, 24), lampMats.glass);
-      jar.position.y = 0.375;
+      // 1. 广口耐热玻璃大壶体 (直径约7cm，平底稳立于网格地面 Y=0)
+      const lampR = 1.05;
+      const jarH = 1.35;
+      const jar = new THREE.Mesh(new THREE.CylinderGeometry(lampR * 0.75, lampR, jarH, 28), lampMats.glass);
+      jar.position.y = jarH / 2;
       jar.castShadow = true;
       lampGrp.add(jar);
 
       // 内部盛装的半透明紫色医用酒精液体
-      const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.65, 0.45, 20), lampMats.alcoholLiquid);
-      liquid.position.y = 0.25;
+      const liquid = new THREE.Mesh(new THREE.CylinderGeometry(lampR * 0.72, lampR * 0.95, jarH * 0.65, 24), lampMats.alcoholLiquid);
+      liquid.position.y = jarH * 0.35;
       lampGrp.add(liquid);
 
-      // 2. 黄铜螺纹灯口密封盖
-      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.12, 20), lampMats.brass);
-      cap.position.y = 0.75 + 0.06;
+      // 2. 黄铜螺纹大灯口密封盖
+      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.18, 24), lampMats.brass);
+      cap.position.y = jarH + 0.09;
       lampGrp.add(cap);
 
       // 白瓷导火灯芯座
-      const ceramicCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 0.08, 16), lampMats.ceramic);
-      ceramicCollar.position.y = 0.87;
+      const ceramicCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.26, 0.12, 20), lampMats.ceramic);
+      ceramicCollar.position.y = jarH + 0.24;
       lampGrp.add(ceramicCollar);
 
-      // 纯棉粗灯芯 (顶端到达 Y=1.15，距上方易拉罐底部刚好保持 5~6cm 黄金距离)
-      const wickMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.26, 12), lampMats.wick);
-      wickMesh.position.y = 1.02;
+      // 纯棉粗灯芯 (顶端到达 Y=1.95，距上方易拉罐底部刚好保持 5~6cm 黄金距离)
+      const wickMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.38, 16), lampMats.wick);
+      wickMesh.position.y = jarH + 0.43;
       lampGrp.add(wickMesh);
 
-      // 3. 多层次生动仿真火焰组 (支持实时点燃 / 熄灭)
+      // 3. 多层次大号仿真火焰组 (支持实时点燃 / 熄灭)
       flameGroup = new THREE.Group();
-      flameGroup.position.set(0, 1.15, 0);
+      flameGroup.position.set(0, 1.95, 0);
 
       // 外焰 (橙红)
-      const fOuter = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.55, 16), lampMats.flameOuter);
-      fOuter.position.y = 0.275;
+      const fOuter = new THREE.Mesh(new THREE.ConeGeometry(0.30, 0.95, 20), lampMats.flameOuter);
+      fOuter.position.y = 0.475;
       flameGroup.add(fOuter);
 
       // 内焰 (暖黄)
-      const fInner = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.40, 16), lampMats.flameInner);
-      fInner.position.y = 0.20;
+      const fInner = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.70, 20), lampMats.flameInner);
+      fInner.position.y = 0.35;
       flameGroup.add(fInner);
 
       // 焰心 (白炽)
-      const fCore = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.25, 12), lampMats.flameCore);
-      fCore.position.y = 0.125;
+      const fCore = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.42, 16), lampMats.flameCore);
+      fCore.position.y = 0.21;
       flameGroup.add(fCore);
 
       // 焰基青光微圈
-      const fBlue = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.02, 8, 16), lampMats.flameBlue);
+      const fBlue = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.035, 8, 20), lampMats.flameBlue);
       fBlue.rotation.x = Math.PI * 0.5;
-      fBlue.position.y = 0.02;
+      fBlue.position.y = 0.03;
       flameGroup.add(fBlue);
 
       // 动态真实点光源 (点燃时向上照射易拉罐底部)
-      lampPointLight = new THREE.PointLight(0xF59E0B, 0, 6.0, 1.2);
-      lampPointLight.position.set(0, 0.35, 0);
+      lampPointLight = new THREE.PointLight(0xF59E0B, 0, 8.0, 1.2);
+      lampPointLight.position.set(0, 0.55, 0);
       flameGroup.add(lampPointLight);
 
       flameGroup.visible = false; // 初始未点燃
@@ -2385,19 +2394,19 @@
     }
 
     btnVDef.addEventListener('click', () => {
-      controls.setView(Math.PI * 0.22, Math.PI * 0.42, 17.5, 5.6);
+      controls.setView(Math.PI * 0.22, Math.PI * 0.44, 24.0, 8.0);
       setActiveViewBtn(btnVDef);
     });
     btnVTop.addEventListener('click', () => {
-      controls.setView(0, 0.08, 19.5, 5.6);
+      controls.setView(0, 0.08, 26.0, 8.0);
       setActiveViewBtn(btnVTop);
     });
     btnVFront.addEventListener('click', () => {
-      controls.setView(0, Math.PI * 0.48, 17.5, 5.6);
+      controls.setView(0, Math.PI * 0.48, 24.0, 8.0);
       setActiveViewBtn(btnVFront);
     });
     btnVIso.addEventListener('click', () => {
-      controls.setView(Math.PI * 0.25, Math.PI * 0.38, 18.5, 5.6);
+      controls.setView(Math.PI * 0.25, Math.PI * 0.38, 25.0, 8.0);
       setActiveViewBtn(btnVIso);
     });
 
