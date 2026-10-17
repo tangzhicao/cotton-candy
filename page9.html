@@ -381,6 +381,29 @@
       cursor: not-allowed;
     }
 
+    .info-card-sub-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .info-card-sub-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.32);
+      color: #FFF;
+    }
+
     /* =========================================================
        5. 右侧零件库侧边栏 (Right Outliner Sidebar)
        ========================================================= */
@@ -677,6 +700,10 @@
             <span>🧩</span>
             <span id="infoActionText">吸附安装到机身</span>
           </button>
+          <button class="info-card-sub-btn" id="infoCardBatteryToggleBtn" style="display: none;">
+            <span>🔋</span>
+            <span id="infoBatteryToggleText">取出双节5号电池观察</span>
+          </button>
         </div>
 
         <!-- 浮动轻通知 -->
@@ -748,11 +775,11 @@
       },
       {
         id: 'battery',
-        name: '电池盒与开关',
-        subName: '2-AA Battery Pack (5×3×1cm)',
+        name: '电池盒与双节5号电池',
+        subName: 'Battery Box & 2×AA (5×3×1cm)',
         icon: '🔋',
-        desc: '实测 5cm×3cm×1cm 双节电池盒：高精还原实物特征——侧壁双指取放U型缺口、后端双螺旋压缩弹簧、前端六角小铜花扣铆钉、侧边金属片刀闸开关与红黑双绞引出导线。',
-        specs: '实测 5.0 × 3.0 × 1.0 cm / 侧边刀闸开关 / 弹簧触点',
+        desc: '实测 5cm×3cm×1cm 双节电池盒，已配装 2 节标准 5 号高能碱性电池（1.5V × 2 = 3.0V 串联供电）。还原南孚聚能环黑金涂装、红色绝缘防漏环与标准正负极结构，刚好严丝合缝嵌入电池盒双仓。',
+        specs: '实测 5×3×1 cm / 内置双节5号电池 / 聚能环 / 刀闸开关',
         targetPos: { x: -1.9, y: 0.38, z: 0.8 },
         spawnPos: { x: -1.9, y: 3.6, z: 0.8 },
         ghostSize: { x: 1.5, y: 0.5, z: 2.5 },
@@ -942,6 +969,10 @@
 
     const partGroups = []; // 保存各部件 3D Group
     let ghostMesh = null;  // 目标装配虚影线框
+    let aaBatteriesGroup = null; // 双节5号标准AA电池组
+    let isBatteriesEjected = false;
+    let isAnimatingBattery = false;
+    let batteryAnimStartTime = 0;
 
     function initThree() {
       const w = container.clientWidth;
@@ -1328,6 +1359,133 @@
       const innerWireMesh = new THREE.Mesh(new THREE.TubeGeometry(inCurve, 20, 0.016, 6, false), bMats.redWire);
       battGrp.add(innerWireMesh);
 
+      // 11. 双节 5 号标准 AA 碱性电池 (经典南孚聚能环黑金涂装，严丝合缝嵌入电池盒双仓)
+      function createAABatteryMesh(isReverse = false) {
+        const bGroup = new THREE.Group();
+
+        const bMatStyles = {
+          goldCollar: new THREE.MeshStandardMaterial({
+            color: 0xE5A93C,
+            roughness: 0.25,
+            metalness: 0.85
+          }),
+          blackJacket: new THREE.MeshStandardMaterial({
+            color: 0x16181D,
+            roughness: 0.42,
+            metalness: 0.25
+          }),
+          energyRing: new THREE.MeshStandardMaterial({
+            color: 0xEF4444,
+            roughness: 0.35,
+            metalness: 0.12
+          }),
+          silverMetal: new THREE.MeshStandardMaterial({
+            color: 0xDEE4EC,
+            roughness: 0.18,
+            metalness: 0.95
+          }),
+          brassPip: new THREE.MeshStandardMaterial({
+            color: 0xD4942A,
+            roughness: 0.22,
+            metalness: 0.88
+          })
+        };
+
+        const R = 0.305; // 电池半径 0.305 (直径 0.61，刚好卡在 0.655 电池仓导轨中)
+
+        // 1. 金色正极端套环 (前段 1/3)
+        const goldLen = 0.62;
+        const goldCyl = new THREE.Mesh(new THREE.CylinderGeometry(R, R, goldLen, 24), bMatStyles.goldCollar);
+        goldCyl.rotation.x = Math.PI * 0.5;
+        goldCyl.position.z = 0.52;
+        goldCyl.castShadow = true;
+        bGroup.add(goldCyl);
+
+        // 2. 黑色高能主体段 (后段 2/3)
+        const blackLen = 1.25;
+        const blackCyl = new THREE.Mesh(new THREE.CylinderGeometry(R, R, blackLen, 24), bMatStyles.blackJacket);
+        blackCyl.rotation.x = Math.PI * 0.5;
+        blackCyl.position.z = -0.42;
+        blackCyl.castShadow = true;
+        bGroup.add(blackCyl);
+
+        // 3. 装饰金线 (细分隔环)
+        const pinstripe = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.01, R * 1.01, 0.025, 24), bMatStyles.goldCollar);
+        pinstripe.rotation.x = Math.PI * 0.5;
+        pinstripe.position.z = 0.21;
+        bGroup.add(pinstripe);
+
+        // 4. 底部标志性红色“聚能环” (防漏绝缘环)
+        const redRing = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.015, R * 1.015, 0.065, 24), bMatStyles.energyRing);
+        redRing.rotation.x = Math.PI * 0.5;
+        redRing.position.z = -0.99;
+        bGroup.add(redRing);
+
+        // 5. 正极圆弧过渡肩部
+        const shoulder = new THREE.Mesh(new THREE.CylinderGeometry(0.22, R, 0.06, 24), bMatStyles.silverMetal);
+        shoulder.rotation.x = Math.PI * 0.5;
+        shoulder.position.z = 0.86;
+        bGroup.add(shoulder);
+
+        // 正极冲压镀镍圆盖
+        const posCap = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.02, 24), bMatStyles.silverMetal);
+        posCap.rotation.x = Math.PI * 0.5;
+        posCap.position.z = 0.90;
+        bGroup.add(posCap);
+
+        // 正极接触凸台 (Pip)
+        const posPip = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.085, 0.10, 16), bMatStyles.brassPip);
+        posPip.rotation.x = Math.PI * 0.5;
+        posPip.position.z = 0.96;
+        posPip.castShadow = true;
+        bGroup.add(posPip);
+
+        // 6. 负极平底底盘 (微凹银白金属板)
+        const negBase = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.92, R * 0.92, 0.03, 24), bMatStyles.silverMetal);
+        negBase.rotation.x = Math.PI * 0.5;
+        negBase.position.z = -1.04;
+        bGroup.add(negBase);
+
+        // 负极中心小圆凹点
+        const negDot = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.015, 12), bMatStyles.silverMetal);
+        negDot.rotation.x = Math.PI * 0.5;
+        negDot.position.z = -1.05;
+        bGroup.add(negDot);
+
+        // 7. 正负极标识符号 (+ 与 - 浮雕)
+        const pBar1 = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.08, 0.01), bMatStyles.goldCollar);
+        pBar1.position.set(0, R + 0.005, 0.52);
+        const pBar2 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.03, 0.01), bMatStyles.goldCollar);
+        pBar2.position.set(0, R + 0.005, 0.52);
+        bGroup.add(pBar1);
+        bGroup.add(pBar2);
+
+        const nBar = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.03, 0.01), bMatStyles.silverMetal);
+        nBar.position.set(0, R + 0.005, -0.65);
+        bGroup.add(nBar);
+
+        if (isReverse) {
+          bGroup.rotation.y = Math.PI; // 串联回路反向布置
+        }
+
+        return bGroup;
+      }
+
+      aaBatteriesGroup = new THREE.Group();
+      aaBatteriesGroup.name = 'aaBatteriesGroup';
+
+      // 左仓电池 (正向放置：正极凸台朝前 +Z，负极底盘抵住后端弹簧 -Z)
+      const battL = createAABatteryMesh(false);
+      battL.position.set(-bW * 0.25, 0.365, 0.05);
+      aaBatteriesGroup.add(battL);
+
+      // 右仓电池 (反向放置：正极凸台朝后 -Z，负极底盘抵住前端弹簧 +Z，形成回路)
+      const battR = createAABatteryMesh(true);
+      battR.position.set(bW * 0.25, 0.365, -0.05);
+      aaBatteriesGroup.add(battR);
+
+      battGrp.add(aaBatteriesGroup);
+
       battGrp.position.copy(partsData[1].spawnPos);
       battGrp.visible = false;
       scene.add(battGrp);
@@ -1559,8 +1717,38 @@
         };
       }
 
+      // 电池弹出/装入按钮控制
+      const battToggleBtn = document.getElementById('infoCardBatteryToggleBtn');
+      if (idx === 1) { // 电池盒与双节5号电池
+        battToggleBtn.style.display = 'flex';
+        const toggleText = document.getElementById('infoBatteryToggleText');
+        if (toggleText) {
+          toggleText.textContent = isBatteriesEjected ? '装入双节5号电池到仓内' : '取出双节5号电池观察';
+        }
+        battToggleBtn.onclick = toggleAABatteries;
+      } else {
+        battToggleBtn.style.display = 'none';
+      }
+
       floatingCard.classList.add('visible');
       renderSidebarList();
+    }
+
+    // 交互：取出 / 装入双节5号电池
+    function toggleAABatteries() {
+      isBatteriesEjected = !isBatteriesEjected;
+      isAnimatingBattery = true;
+      batteryAnimStartTime = performance.now();
+
+      const toggleText = document.getElementById('infoBatteryToggleText');
+      if (isBatteriesEjected) {
+        if (toggleText) toggleText.textContent = '装入双节5号电池到仓内';
+        showToast('🔍 已升起双节5号电池，可全景观察南孚黑金涂装与内部弹簧');
+      } else {
+        if (toggleText) toggleText.textContent = '取出双节5号电池观察';
+        playSnapSound();
+        showToast('⚡ 两节5号电池已严丝合缝卡入电池盒！');
+      }
     }
 
     // 执行吸附装配动画
@@ -1627,6 +1815,14 @@
         grp.visible = (idx === 0); // 仅显示底座
         grp.rotation.set(0, 0, 0);
       });
+
+      // 重置双节5号电池升起状态
+      if (aaBatteriesGroup) {
+        aaBatteriesGroup.position.set(0, 0, 0);
+        aaBatteriesGroup.rotation.set(0, 0, 0);
+      }
+      isBatteriesEjected = false;
+      isAnimatingBattery = false;
 
       onSelectPartFromList(0);
       showToast('🔄 装配台已重置，请重新挑选零件进行拼装。');
@@ -1829,6 +2025,24 @@
           item.group.position.copy(item.targetPos);
           animatingParts.splice(i, 1);
           onPartSnapped(item.partIndex);
+        }
+      }
+
+      // 2.5 处理双节5号电池升起取出/放入补间动画
+      if (isAnimatingBattery && aaBatteriesGroup) {
+        const elapsed = now - batteryAnimStartTime;
+        const dur = 400;
+        const t = Math.min(1.0, elapsed / dur);
+        const ease = 1 - Math.pow(1 - t, 3);
+        const currentTarget = isBatteriesEjected ? 1.0 : 0.0;
+        const startVal = isBatteriesEjected ? 0.0 : 1.0;
+        const p = startVal + (currentTarget - startVal) * ease;
+        aaBatteriesGroup.position.y = p * 1.15;
+        aaBatteriesGroup.position.z = p * 0.15;
+        aaBatteriesGroup.rotation.x = p * 0.08;
+
+        if (t >= 1.0) {
+          isAnimatingBattery = false;
         }
       }
 
