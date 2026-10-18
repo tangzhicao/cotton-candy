@@ -658,6 +658,16 @@
       box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
     }
 
+    /* 360°空间旋转按钮激活态 (科幻天蓝微光) */
+    .btn-autorotate-toggle.active,
+    .editor-btn.autorotate-active,
+    .view-chip-btn.autorotate-active {
+      background: rgba(56, 189, 248, 0.22) !important;
+      border-color: rgba(56, 189, 248, 0.65) !important;
+      color: #38BDF8 !important;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.35) !important;
+    }
+
     /* 出丝物理状态指示器 */
     .floss-status-indicator {
       display: flex;
@@ -832,6 +842,10 @@
       </div>
 
       <div class="top-right-actions">
+        <button class="editor-btn" id="btnToggleAutoRotate" title="开启 / 关闭 360° 空间全景环绕旋转 (同装配完成后的自转展示效果，快捷键 O)">
+          <span id="autoRotateIcon">🌐</span>
+          <span id="btnAutoRotateText">360°空间旋转</span>
+        </button>
         <button class="editor-btn" id="btnToggleFlameGlobal" title="点燃或熄灭底部酒精灯 (可在任何步骤点燃)">
           <span id="flameGlobalIcon">🔥</span>
           <span id="btnFlameGlobalText">点燃酒精灯</span>
@@ -878,6 +892,8 @@
           <button class="view-chip-btn" id="btnViewTop">顶视</button>
           <button class="view-chip-btn" id="btnViewFront">正视</button>
           <button class="view-chip-btn" id="btnViewIso">等轴</button>
+          <span style="display:inline-block;width:1px;height:12px;background:rgba(255,255,255,0.2);margin:0 3px;vertical-align:middle;"></span>
+          <button class="view-chip-btn" id="btnDockAutoRotate" title="开启 / 暂停 360° 空间全景环绕旋转">🔄 360°自转</button>
         </div>
 
         <!-- 左下角极简悬浮信息卡片 (仅选中零件时弹出) -->
@@ -959,6 +975,14 @@
             <button class="panel-action-btn btn-flame-toggle" id="btnToggleFlamePanel" title="点燃或熄灭底部酒精灯">
               <span id="panelFlameIcon">🔥</span>
               <span id="panelFlameText">点燃酒精灯</span>
+            </button>
+          </div>
+
+          <!-- 2.5 360°空间旋转按钮 (同全套装配完毕后的自动旋转效果) -->
+          <div style="margin-top: 7px;">
+            <button class="panel-action-btn btn-autorotate-toggle" id="btnToggleAutoRotatePanel" style="width: 100%; justify-content: center; gap: 7px;" title="开启或暂停 360° 全景空间巡游旋转 (如同全套装配完毕后的自动旋转效果)">
+              <span id="panelAutoRotateIcon">🌐</span>
+              <span id="panelAutoRotateText">360°空间巡游自转</span>
             </button>
           </div>
 
@@ -1174,7 +1198,7 @@
       }
 
       update() {
-        if (this.autoRotate) {
+        if (this.autoRotate && !this.isOrbiting) {
           this.targetTheta += this.autoRotateSpeed;
         }
 
@@ -1231,16 +1255,15 @@
     let currentRpm = 1600;
 
     // =========================================================
-    // 3.5 棉花糖丝仿真系统 (3D弯曲微管 Tube + InstancedMesh + 堆积云团)
+    // 3.5 棉花糖丝仿真系统 (多形态3D曲线微管 Tube + InstancedMesh + 超大蓬松云团)
     // =========================================================
-    // 核心参数配置中心 (便于直观修改形态、浮力、阻力与云团堆积范围)
+    // 核心参数配置中心 (细度、密度、多形态曲线、扩散半径与大云团堆积)
     const FLOSS_CONFIG = {
-      // 1. 糖丝形态参数 (长度、粗细与并发量)
-      strandCount: 850,             // 最大并发糖丝数量 (单DrawCall，60FPS流畅)
-      strandBaseRadius: 0.012,      // 糖丝微管截面基础半径 (极细丝絮，杜绝颗粒感)
-      strandMinLength: 0.65,        // 糖丝最短基准长度 (0.5~2.0 单位)
-      strandMaxLength: 1.85,        // 糖丝最长基准长度
-      strandScaleThick: 1.0,        // 糖丝粗细比例因子
+      // 1. 糖丝形态参数 (极细化、高密度与多形态曲线)
+      strandBaseRadius: 0.0055,     // 糖丝微管截面基础半径 (由0.012降至0.0055，极细若发丝、半透柔光感十足)
+      strandMinLength: 0.85,        // 糖丝最短基准长度
+      strandMaxLength: 2.30,        // 糖丝最长基准长度 (拉长纤维，形成缠绕丝絮感)
+      strandScaleThick: 0.90,       // 糖丝粗细比例因子 (轻薄通透)
 
       // 2. 易拉罐出丝小孔几何空间
       canHoleRadius: 1.05,          // 易拉罐小孔出丝水平圆柱半径
@@ -1248,63 +1271,103 @@
       canHoleMaxY: 4.65,            // 易拉罐孔洞上沿高度
 
       // 3. 喷出与离心切向动力学
-      tangentVelocity: 0.095,       // 水平切向初速度 (转动甩丝)
-      centrifugalVelocity: 0.075,   // 水平径向离心甩出初速度
+      tangentVelocity: 0.105,       // 水平切向初速度 (高速旋转离心甩出)
+      centrifugalVelocity: 0.085,   // 水平径向离心甩出初速度
 
       // 4. 空气动力衰减与热浮力漂浮参数
-      airResistance: 0.942,         // 空气阻力阻尼 (每帧速度衰减率，迅速减速变柔)
-      thermalBuoyancy: 0.0026,      // 酒精灯上升热气流垂直浮力 (向上正加速度，抵消重力使轻盈微浮)
-      gravityDamp: 0.0002,          // 极微弱的下沉力 (远小于热浮力，彻底去除下坠感)
-      turbulenceStrength: 0.0035,   // 空气涡流随机扰动微波强度 (柳絮般轻盈漂浮打转)
+      airResistance: 0.945,         // 空气阻力阻尼 (使糖丝离开小孔后迅速减速柔化)
+      thermalBuoyancy: 0.0030,      // 酒精灯上升热气流垂直浮力 (向上正加速度，抵消重力使轻盈微浮)
+      gravityDamp: 0.0001,          // 极微弱的下沉力 (远小于热浮力，彻底去除沉重下坠感)
+      turbulenceStrength: 0.0048,   // 空气涡流随机扰动微波强度 (柳絮般轻盈漂浮打转)
 
-      // 5. 堆积云团 (Accumulation Cloud) 核心参数
-      cloudInnerRadius: 1.70,       // 堆积云团内边缘半径 (糖丝飞出此距离后进入堆积滞留区)
-      cloudMaxRadius: 3.65,         // 堆积云团最大自然外径 (决定云团蓬松横向大小)
-      cloudCenterY: 5.10,           // 堆积云团悬浮中心高度 (易拉罐周围偏上方)
-      cloudHoverDecay: 0.88,        // 进入堆积云团后的速度阻尼 (使糖丝迅速停滞聚集成团)
-      cloudSwirlSpeed: 0.0075,      // 云团在空中的宏观公转环流速度 (沿中心轴轻缓旋绕)
-      cloudTumbleSpeed: 0.014,      // 糖丝在云团内部的相互交织自转翻滚速度 (乱蓬蓬交错感)
-      cloudBreathFreq: 0.0025,      // 云团上下呼吸浮动的轻微波动频率
+      // 5. 超大蓬松堆积云团 (Expanded Accumulation Cloud) 核心参数
+      cloudInnerRadius: 1.55,       // 堆积云团内边缘半径 (糖丝飞出此距离后进入堆积滞留区)
+      cloudMaxRadius: 5.60,         // 堆积云团最大自然外径 (由3.65大幅扩大至5.60，横向直径达11.2大云团！)
+      cloudCenterY: 5.40,           // 堆积云团悬浮中心高度 (环绕易拉罐及金属转轴中下部)
+      cloudHoverDecay: 0.91,        // 进入堆积云团后的速度阻尼 (使糖丝迅速停滞聚集成团)
+      cloudSwirlSpeed: 0.0085,      // 云团在空中的宏观公转环流速度 (沿中心轴轻缓旋绕)
+      cloudTumbleSpeed: 0.018,      // 糖丝在云团内部的相互交织自转翻滚速度 (形成乱蓬蓬立体毛糙感)
+      cloudBreathFreq: 0.0022,      // 云团上下呼吸浮动的轻微波动频率
 
-      // 6. 生命周期与堆积浓度控制
-      strandMinLife: 320,           // 糖丝最短存活帧数 (长寿命确保能在空中积攒出厚厚的大云朵)
-      strandMaxLife: 580            // 糖丝最长存活帧数
+      // 6. 生命周期与高密度堆积控制
+      strandMinLife: 420,           // 糖丝最短存活帧数 (长寿命确保能在空中积攒出厚厚的大云朵)
+      strandMaxLife: 720            // 糖丝最长存活帧数
     };
 
-    let flossInstancedMesh = null;
+    // 3 种不同形态的自然卷曲 3D 曲线原型 (螺旋微卷、大S形波浪、回环打结扣)
+    const FLOSS_TYPES = 3;
+    const STRANDS_PER_TYPE = 800; // 每种几何体 800 条，并发总数达 2400 条高密度糖丝！
+    const TOTAL_STRANDS = FLOSS_TYPES * STRANDS_PER_TYPE;
+
+    let flossMeshes = [];
     let dummyFlossObj = null;
     const flossData = [];
 
-    // 初始化 3D 弯曲微管 InstancedMesh 棉花糖丝系统
+    // 初始化多曲线形态高密度棉花糖丝系统
     function initCottonCandyParticles() {
-      // 1. 使用 CatmullRomCurve3 样条曲线生成自然弯曲、微波浪的 3D 糖丝几何体
-      const strandPoints = [
-        new THREE.Vector3(-0.55, -0.04,  0.03),
-        new THREE.Vector3(-0.25,  0.05, -0.04),
-        new THREE.Vector3( 0.05, -0.03,  0.05),
-        new THREE.Vector3( 0.35,  0.04, -0.02),
-        new THREE.Vector3( 0.55, -0.02,  0.01)
-      ];
-      const strandCurve = new THREE.CatmullRomCurve3(strandPoints);
-      // TubeGeometry: 10段沿曲线切分，截面6面极细微管 (低顶点高表现力)
-      const fiberBaseGeo = new THREE.TubeGeometry(strandCurve, 10, FLOSS_CONFIG.strandBaseRadius, 6, false);
+      const radius = FLOSS_CONFIG.strandBaseRadius;
 
-      // 2. 材质：浅粉/纯白半透明，带有温润自发光 (emissive)
+      // [形态 1] 3D 立体螺旋回弹卷曲微丝 (Spiral Helix: 如同被离心力甩出受冷收缩的卷丝)
+      const ptsSpiral = [];
+      for (let i = 0; i <= 9; i++) {
+        const t = i / 9;
+        const angle = t * Math.PI * 2 * 1.8;
+        const r = (0.09 + 0.05 * Math.sin(t * Math.PI));
+        ptsSpiral.push(new THREE.Vector3(
+          (t - 0.5) * 1.35,
+          Math.sin(angle) * r,
+          Math.cos(angle) * r
+        ));
+      }
+      const curveSpiral = new THREE.CatmullRomCurve3(ptsSpiral);
+      const geoSpiral = new THREE.TubeGeometry(curveSpiral, 11, radius, 5, false);
+
+      // [形态 2] 双向立体起伏波浪微丝 (Organic S-Wave: 柔和起伏、飘逸舒展的长丝带)
+      const ptsWave = [
+        new THREE.Vector3(-0.75, -0.07,  0.10),
+        new THREE.Vector3(-0.45,  0.14, -0.08),
+        new THREE.Vector3(-0.15, -0.12,  0.09),
+        new THREE.Vector3( 0.20,  0.16, -0.11),
+        new THREE.Vector3( 0.50, -0.08,  0.06),
+        new THREE.Vector3( 0.75,  0.05, -0.02)
+      ];
+      const curveWave = new THREE.CatmullRomCurve3(ptsWave);
+      const geoWave = new THREE.TubeGeometry(curveWave, 11, radius, 5, false);
+
+      // [形态 3] 回环交错打结糖丝 (Tangled Loop Twist: 在空中自我缠绕、打结形成团絮的乱丝)
+      const ptsLoop = [
+        new THREE.Vector3(-0.65, -0.10, -0.06),
+        new THREE.Vector3(-0.25,  0.18,  0.12),
+        new THREE.Vector3( 0.08,  0.22, -0.09),
+        new THREE.Vector3( 0.02, -0.06, -0.15),
+        new THREE.Vector3(-0.06,  0.04,  0.08),
+        new THREE.Vector3( 0.28, -0.15,  0.07),
+        new THREE.Vector3( 0.65,  0.08, -0.03)
+      ];
+      const curveLoop = new THREE.CatmullRomCurve3(ptsLoop);
+      const geoLoop = new THREE.TubeGeometry(curveLoop, 12, radius, 5, false);
+
+      const FLOSS_GEOS = [geoSpiral, geoWave, geoLoop];
+
+      // 糖丝微管物理材质：浅粉/纯白半透明，带有温润自发光柔光
       const fiberMat = new THREE.MeshStandardMaterial({
         color: 0xFFF0F5,
         roughness: 0.45,
         metalness: 0.05,
-        emissive: 0xFFB6C1,
-        emissiveIntensity: 0.42,
+        emissive: 0xFFAEC9,
+        emissiveIntensity: 0.38,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.52,
         depthWrite: false,
         side: THREE.DoubleSide
       });
 
-      // 3. 单次 DrawCall 的 InstancedMesh (850条并发，60FPS流畅)
-      flossInstancedMesh = new THREE.InstancedMesh(fiberBaseGeo, fiberMat, FLOSS_CONFIG.strandCount);
-      flossInstancedMesh.frustumCulled = false;
+      flossMeshes = FLOSS_GEOS.map(geo => {
+        const mesh = new THREE.InstancedMesh(geo, fiberMat, STRANDS_PER_TYPE);
+        mesh.frustumCulled = false;
+        return mesh;
+      });
+
       dummyFlossObj = new THREE.Object3D();
 
       // 丰富柔和的马卡龙糖彩色系
@@ -1314,11 +1377,16 @@
         new THREE.Color(0xFFE4E6), // 糖霜粉白
         new THREE.Color(0xFFFFFF), // 纯洁糖丝白
         new THREE.Color(0xFDF2F8), // 奶甜微粉
-        new THREE.Color(0xFFF1F2)  // 浅玫瑰糖粉
+        new THREE.Color(0xFFEBEF)  // 浅玫瑰糖粉
       ];
 
-      for (let i = 0; i < FLOSS_CONFIG.strandCount; i++) {
+      for (let i = 0; i < TOTAL_STRANDS; i++) {
+        const typeIdx = Math.floor(i / STRANDS_PER_TYPE);
+        const instIdx = i % STRANDS_PER_TYPE;
+
         flossData.push({
+          typeIdx,
+          instIdx,
           active: false,
           inCloud: false,
           pos: new THREE.Vector3(0, -999, 0),
@@ -1328,58 +1396,65 @@
           scale: new THREE.Vector3(0, 0, 0),
           baseScale: new THREE.Vector3(1, 1, 1),
           life: 0,
-          maxLife: 350,
-          seed: Math.random() * 200
+          maxLife: 450,
+          // 广域立体云团目标高度与半径分布
+          targetYOffset: (Math.random() - 0.35) * 3.6,
+          targetRDist: FLOSS_CONFIG.cloudInnerRadius + Math.pow(Math.random(), 0.7) * (FLOSS_CONFIG.cloudMaxRadius - FLOSS_CONFIG.cloudInnerRadius),
+          seed: Math.random() * 300
         });
 
-        // 随机分配颜色
+        // 赋予糖丝丰富色彩
         const c = FLOSS_COLORS[i % FLOSS_COLORS.length];
-        flossInstancedMesh.setColorAt(i, c);
+        flossMeshes[typeIdx].setColorAt(instIdx, c);
 
-        // 初始全部隐藏至地面下方
+        // 初始隐藏至地面以下
         dummyFlossObj.position.set(0, -999, 0);
         dummyFlossObj.scale.set(0, 0, 0);
         dummyFlossObj.updateMatrix();
-        flossInstancedMesh.setMatrixAt(i, dummyFlossObj.matrix);
+        flossMeshes[typeIdx].setMatrixAt(instIdx, dummyFlossObj.matrix);
       }
 
-      flossInstancedMesh.instanceMatrix.needsUpdate = true;
-      if (flossInstancedMesh.instanceColor) {
-        flossInstancedMesh.instanceColor.needsUpdate = true;
+      for (let t = 0; t < FLOSS_TYPES; t++) {
+        flossMeshes[t].instanceMatrix.needsUpdate = true;
+        if (flossMeshes[t].instanceColor) {
+          flossMeshes[t].instanceColor.needsUpdate = true;
+        }
+        scene.add(flossMeshes[t]);
       }
-      scene.add(flossInstancedMesh);
     }
 
     // 重置所有糖丝
     function resetCottonCandyFloss() {
-      if (!flossInstancedMesh) return;
-      for (let i = 0; i < FLOSS_CONFIG.strandCount; i++) {
+      if (!flossMeshes || flossMeshes.length === 0) return;
+      for (let i = 0; i < TOTAL_STRANDS; i++) {
         const p = flossData[i];
         p.active = false;
         p.inCloud = false;
         dummyFlossObj.position.set(0, -999, 0);
         dummyFlossObj.scale.set(0, 0, 0);
         dummyFlossObj.updateMatrix();
-        flossInstancedMesh.setMatrixAt(i, dummyFlossObj.matrix);
+        flossMeshes[p.typeIdx].setMatrixAt(p.instIdx, dummyFlossObj.matrix);
       }
-      flossInstancedMesh.instanceMatrix.needsUpdate = true;
+      for (let t = 0; t < FLOSS_TYPES; t++) {
+        flossMeshes[t].instanceMatrix.needsUpdate = true;
+      }
     }
 
-    // 更新棉花糖丝物理运动与大云团堆积仿真
+    // 更新棉花糖丝物理运动与大云团堆积仿真 (2400条高密度多形态并发)
     function updateCottonCandyParticles() {
-      if (!flossInstancedMesh) return;
+      if (!flossMeshes || flossMeshes.length === 0) return;
 
       const now = performance.now();
       // 核心物理逻辑联动：只有当【酒精灯已点燃】且【马达正在旋转】且【转速足够】且【易拉罐已拼装】时喷出棉花糖丝！
       const isEjecting = (isLampLit && isMotorRunning && currentRpm > 100 && partsData[4].isAssembled);
 
-      // 1. 发射新糖丝 (生成速率正比于当前 RPM)
+      // 1. 发射新糖丝 (随 RPM 大幅提升发射速率，形成厚实高密度云絮)
       if (isEjecting) {
         const rpmRatio = currentRpm / 1600.0;
-        const spawnCount = Math.max(1, Math.floor(rpmRatio * 3.8));
+        const spawnCount = Math.max(2, Math.floor(rpmRatio * 7.5));
         let spawned = 0;
 
-        for (let i = 0; i < FLOSS_CONFIG.strandCount; i++) {
+        for (let i = 0; i < TOTAL_STRANDS; i++) {
           const p = flossData[i];
           if (!p.active) {
             p.active = true;
@@ -1395,15 +1470,15 @@
             p.pos.y = FLOSS_CONFIG.canHoleMinY + Math.random() * (FLOSS_CONFIG.canHoleMaxY - FLOSS_CONFIG.canHoleMinY);
 
             // 初速度：切向旋转甩出 + 径向离心
-            const vTan = FLOSS_CONFIG.tangentVelocity * (0.8 + 0.4 * rpmRatio);
-            const vCent = (FLOSS_CONFIG.centrifugalVelocity + Math.random() * 0.035) * (0.8 + 0.4 * rpmRatio);
+            const vTan = FLOSS_CONFIG.tangentVelocity * (0.85 + 0.35 * rpmRatio);
+            const vCent = (FLOSS_CONFIG.centrifugalVelocity + Math.random() * 0.04) * (0.85 + 0.35 * rpmRatio);
 
             p.vel.x = -Math.sin(angle) * vTan + Math.cos(angle) * vCent;
             p.vel.z =  Math.cos(angle) * vTan + Math.sin(angle) * vCent;
             // 垂直初速度：酒精灯上升热气流托举
-            p.vel.y = FLOSS_CONFIG.thermalBuoyancy * 2.2 + (Math.random() - 0.5) * 0.004;
+            p.vel.y = FLOSS_CONFIG.thermalBuoyancy * 2.4 + (Math.random() - 0.45) * 0.005;
 
-            // 随机 3D 空间姿态与翻滚角速度 (形成乱蓬蓬的纤维交错感)
+            // 随机 3D 空间姿态与自转翻滚角速度 (形成乱蓬蓬的纤维交错感)
             p.rot.set(
               Math.random() * Math.PI * 2,
               Math.random() * Math.PI * 2,
@@ -1415,9 +1490,9 @@
               (Math.random() - 0.5) * FLOSS_CONFIG.cloudTumbleSpeed * 2
             );
 
-            // 糖丝随机长度 (0.65 ~ 1.85 单位) 与粗细
+            // 糖丝更细长：长度 0.85 ~ 2.30 单位，粗细轻薄柔美
             const len = FLOSS_CONFIG.strandMinLength + Math.random() * (FLOSS_CONFIG.strandMaxLength - FLOSS_CONFIG.strandMinLength);
-            const th = (0.85 + Math.random() * 0.35) * FLOSS_CONFIG.strandScaleThick;
+            const th = (0.75 + Math.random() * 0.4) * FLOSS_CONFIG.strandScaleThick;
             p.baseScale.set(len, th, th);
             p.scale.set(0.001, 0.001, 0.001); // 刚喷出时细小，随后迅速拉伸
 
@@ -1427,14 +1502,14 @@
         }
       }
 
-      // 2. 迭代物理仿真、空气阻力衰减与大云团聚集
-      for (let i = 0; i < FLOSS_CONFIG.strandCount; i++) {
+      // 2. 迭代物理仿真、空气阻力衰减与超大蓬松云团堆积聚集
+      for (let i = 0; i < TOTAL_STRANDS; i++) {
         const p = flossData[i];
         if (!p.active) {
           dummyFlossObj.position.set(0, -999, 0);
           dummyFlossObj.scale.set(0, 0, 0);
           dummyFlossObj.updateMatrix();
-          flossInstancedMesh.setMatrixAt(i, dummyFlossObj.matrix);
+          flossMeshes[p.typeIdx].setMatrixAt(p.instIdx, dummyFlossObj.matrix);
           continue;
         }
 
@@ -1462,11 +1537,11 @@
           p.vel.z += Math.cos(now * 0.003 + p.seed) * FLOSS_CONFIG.turbulenceStrength;
 
           // 出孔拉丝生长动效
-          const growT = Math.min(1.0, p.life / 18.0);
+          const growT = Math.min(1.0, p.life / 16.0);
           p.scale.copy(p.baseScale).multiplyScalar(growT);
 
         } else {
-          // [阶段二] 云团滞留、空间交织与宏观环流阶段 (核心堆积感)
+          // [阶段二] 云团滞留、空间交织与宏观环流阶段 (超大蓬松棉花糖云)
           p.vel.x *= FLOSS_CONFIG.cloudHoverDecay;
           p.vel.z *= FLOSS_CONFIG.cloudHoverDecay;
           p.vel.y *= 0.90;
@@ -1477,16 +1552,17 @@
 
           // 围绕中心轴的慢速涡流公转 (像云朵一样徐徐旋绕)
           const curAng = Math.atan2(p.pos.z, p.pos.x);
-          const swirlStep = FLOSS_CONFIG.cloudSwirlSpeed * (0.7 + 0.3 * (currentRpm / 1600.0));
+          const swirlStep = FLOSS_CONFIG.cloudSwirlSpeed * (0.65 + 0.35 * (currentRpm / 1600.0));
           const nextAng = curAng + swirlStep;
-          const targetR = Math.min(FLOSS_CONFIG.cloudMaxRadius, Math.max(FLOSS_CONFIG.cloudInnerRadius, distXZ + 0.003));
-          p.pos.x = Math.cos(nextAng) * targetR;
-          p.pos.z = Math.sin(nextAng) * targetR;
+          // 向广域扩散目标半径缓慢舒展，外扩至 cloudMaxRadius (5.60)
+          const currR = Math.min(FLOSS_CONFIG.cloudMaxRadius, Math.max(FLOSS_CONFIG.cloudInnerRadius, distXZ + (p.targetRDist - distXZ) * 0.015));
+          p.pos.x = Math.cos(nextAng) * currR;
+          p.pos.z = Math.sin(nextAng) * currR;
 
-          // 垂直呼吸浮动 + 向云团中心高度收拢 (凝聚成饱满大云团)
-          const breath = Math.sin(now * FLOSS_CONFIG.cloudBreathFreq + p.seed) * 0.005;
-          const heightAttract = (FLOSS_CONFIG.cloudCenterY - p.pos.y) * 0.008;
-          p.pos.y += breath + heightAttract;
+          // 垂直轻柔呼吸浮动 + 纵向立体层叠扩散 (覆盖易拉罐与转轴全区域)
+          const targetY = FLOSS_CONFIG.cloudCenterY + p.targetYOffset;
+          const breath = Math.sin(now * FLOSS_CONFIG.cloudBreathFreq + p.seed) * 0.006;
+          p.pos.y += breath + (targetY - p.pos.y) * 0.008;
 
           // 糖丝在空中无规则翻滚交错缠绕 (乱蓬蓬视觉)
           p.rot.x += p.rotVel.x;
@@ -1494,7 +1570,7 @@
           p.rot.z += p.rotVel.z;
 
           // 云团中糖丝舒展蓬松
-          const cloudPuff = 1.0 + Math.sin((p.life / p.maxLife) * Math.PI) * 0.15;
+          const cloudPuff = 1.0 + Math.sin((p.life / p.maxLife) * Math.PI) * 0.18;
           p.scale.copy(p.baseScale).multiplyScalar(cloudPuff);
         }
 
@@ -1519,10 +1595,12 @@
         dummyFlossObj.rotation.copy(p.rot);
         dummyFlossObj.scale.copy(p.scale);
         dummyFlossObj.updateMatrix();
-        flossInstancedMesh.setMatrixAt(i, dummyFlossObj.matrix);
+        flossMeshes[p.typeIdx].setMatrixAt(p.instIdx, dummyFlossObj.matrix);
       }
 
-      flossInstancedMesh.instanceMatrix.needsUpdate = true;
+      for (let t = 0; t < FLOSS_TYPES; t++) {
+        flossMeshes[t].instanceMatrix.needsUpdate = true;
+      }
     }
 
     function initThree() {
@@ -2791,9 +2869,9 @@
       const allDone = partsData.every(p => p.isAssembled);
       if (allDone) {
         isFullyAssembled = true;
-        controls.autoRotate = false;
         updateFlossStatusIndicator();
-        showToast('🎉 恭喜！全部部件拼装完成！请在右侧面板【启动马达】并【点燃酒精灯】开始出丝！');
+        toggleSceneAutoRotate(true); // 拼装全部完成后自动开启 360° 空间旋转展示成果！
+        showToast('🎉 恭喜！全部部件拼装完成！空间自转已开启，可在控制台随时开启马达并点燃酒精灯出丝！');
       } else {
         // 自动引导选中下一个未装配的零件
         const nextIdx = partsData.findIndex(p => !p.isAssembled);
@@ -2821,7 +2899,7 @@
 
       part.isAssembled = false;
       isFullyAssembled = false;
-      controls.autoRotate = false;
+      toggleSceneAutoRotate(false);
 
       // 重置旋转与位移回浮动准备状态
       grp.rotation.set(0, 0, 0);
@@ -2836,7 +2914,7 @@
     // 重新拼装重置
     function resetAllAssembly() {
       isFullyAssembled = false;
-      controls.autoRotate = false;
+      toggleSceneAutoRotate(false);
       ghostMesh.visible = false;
       assemblyHistory.length = 0;
 
@@ -2882,6 +2960,7 @@
           setTimeout(() => {
             toggleLampFlame(true);
             toggleMotorRun(true);
+            toggleSceneAutoRotate(true);
             showToast('🎉 演示完毕！酒精灯已点燃，马达高速运转，易拉罐正持续喷出棉花糖丝！');
           }, 400);
         }
@@ -3091,6 +3170,52 @@
       }
     }
 
+    // 切换 3D/4D 全景空间环绕自转 (Auto Rotate Scene: 如同全套装配完成后的自动环绕自转效果)
+    function toggleSceneAutoRotate(forceState) {
+      if (!controls) return;
+      if (typeof forceState === 'boolean') {
+        controls.autoRotate = forceState;
+      } else {
+        controls.autoRotate = !controls.autoRotate;
+      }
+      controls.autoRotateSpeed = 0.0075;
+
+      const isRot = controls.autoRotate;
+
+      // 1. 顶部工具栏按钮
+      const topBtn = document.getElementById('btnToggleAutoRotate');
+      const topText = document.getElementById('btnAutoRotateText');
+      const topIcon = document.getElementById('autoRotateIcon');
+      if (topBtn) {
+        topBtn.classList.toggle('autorotate-active', isRot);
+        if (topText) topText.textContent = isRot ? '暂停空间旋转' : '360°空间旋转';
+        if (topIcon) topIcon.textContent = isRot ? '⏸' : '🌐';
+      }
+
+      // 2. 视口底部快捷 Dock 按钮
+      const dockBtn = document.getElementById('btnDockAutoRotate');
+      if (dockBtn) {
+        dockBtn.classList.toggle('autorotate-active', isRot);
+        dockBtn.textContent = isRot ? '⏸ 暂停旋转' : '🔄 360°自转';
+      }
+
+      // 3. 右侧控制台面板按钮
+      const panelBtn = document.getElementById('btnToggleAutoRotatePanel');
+      const panelText = document.getElementById('panelAutoRotateText');
+      const panelIcon = document.getElementById('panelAutoRotateIcon');
+      if (panelBtn) {
+        panelBtn.classList.toggle('active', isRot);
+        if (panelText) panelText.textContent = isRot ? '暂停全景旋转' : '360°空间巡游自转';
+        if (panelIcon) panelIcon.textContent = isRot ? '⏸' : '🌐';
+      }
+
+      if (isRot) {
+        showToast('🌐 已开启 360° 空间全景环绕巡游自转！');
+      } else {
+        showToast('⏸ 已暂停 360° 空间旋转。');
+      }
+    }
+
     // 初始化控制面板事件监听
     function initControlPanelEvents() {
       const slider = document.getElementById('motorRpmSlider');
@@ -3117,6 +3242,16 @@
       if (btnFlamePanel) {
         btnFlamePanel.addEventListener('click', () => toggleLampFlame());
       }
+
+      // 360° 空间旋转按钮事件绑定 (顶部栏、底部Dock、控制面板)
+      const btnAutoTop = document.getElementById('btnToggleAutoRotate');
+      if (btnAutoTop) btnAutoTop.addEventListener('click', () => toggleSceneAutoRotate());
+
+      const btnAutoDock = document.getElementById('btnDockAutoRotate');
+      if (btnAutoDock) btnAutoDock.addEventListener('click', () => toggleSceneAutoRotate());
+
+      const btnAutoPanel = document.getElementById('btnToggleAutoRotatePanel');
+      if (btnAutoPanel) btnAutoPanel.addEventListener('click', () => toggleSceneAutoRotate());
 
       updateFlossStatusIndicator();
     }
@@ -3161,6 +3296,8 @@
         }
       } else if (e.code === 'KeyF' || e.key === 'f') {
         toggleLampFlame();
+      } else if (e.code === 'KeyO' || e.key === 'o') {
+        toggleSceneAutoRotate();
       } else if (e.code === 'KeyR' || e.key === 'r') {
         resetAllAssembly();
       } else if (e.key === 'ArrowLeft') {
